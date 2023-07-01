@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Web3 from 'web3';
-
+import Chairperson from './chairperson.js';
+import Voter from './voter.js';
 import {ABI,address} from './config.js';
 
 class App extends Component {
@@ -8,7 +9,8 @@ class App extends Component {
     super(props);
     this.state = {
       account: '',
-      chairperson:''
+      chairperson:'',
+      status:-1
     };
   }
 
@@ -37,18 +39,27 @@ class App extends Component {
   }
 
   async chairperson_or_voter(){
-    const {scontract}= this.state;
+    const {scontract,account}= this.state;
     const chair = await scontract.methods.chairperson().call();
     this.setState({chairperson:chair});
+    if(account==chair)
+    {
+      this.setState({status:0})
+    }
+    else
+    {
+      this.setState({status:1})
+    }
   }
 
   render() {
-    const {chairperson,account} = this.state;
+    const {chairperson,account,status} = this.state;
     
     return (
      <>
-     <p>Chairperson:{chairperson}</p>
-     <p>Your account:{account}</p>
+   
+     {status==0 && <Chairperson/>}
+     {status==1 && <Voter/>}
      </>
     );
   }
