@@ -51,27 +51,27 @@ voting_time = v;
 reveal_winner_time = rev;
     }
     function start() public{
-        require(msg.sender==chairperson);
-        require(isstarted==false);
+        require(msg.sender==chairperson,"not chairperson");
+        require(isstarted==false ," started");
         starttime = block.timestamp;
     }
     function register() public
-    {   require(msg.sender!=chairperson);  
-    require(isset==true);
-    require(isstarted==true);
+    {   require(msg.sender!=chairperson,"chairperson");  
+    require(isset==true,"chairpeson did not set");
+    require(isstarted==true,"chairperson did not start");
         address voter = msg.sender;
-       require(block.timestamp<= starttime + register_time*1 minutes);
-        require(voters[voter].voted == false);
-        require(voters[voter].registered==false);
+      // require(block.timestamp<= starttime + register_time*1 minutes);
+        require(voters[voter].voted == false,"voter already voted");
+        require(voters[voter].registered==false,"already registered");
         voters[voter].weight = 1;
         voters[voter].registered = true;
         voter_address.push(voter);
     }
 
     function voting_process(uint vo) public 
-    {      require(block.timestamp>= starttime + register_time*1 minutes && block.timestamp<= starttime + voting_time*1 minutes);
-            require(voters[msg.sender].weight !=0);
-            require(!voters[msg.sender].voted);
+    {     // require(block.timestamp>= starttime + register_time*1 minutes && block.timestamp<= starttime + voting_time*1 minutes);
+            require(voters[msg.sender].weight !=0,"voter not registered");
+            require(!voters[msg.sender].voted,"voter already voted");
 
             
             
@@ -82,7 +82,7 @@ reveal_winner_time = rev;
     }
 
     function reveal_winner() public   
-    {  require(block.timestamp>=starttime + reveal_winner_time*1 minutes);
+    {  //require(block.timestamp>=starttime + reveal_winner_time*1 minutes);
    
        
         tiecalculate();

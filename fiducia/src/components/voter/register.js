@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Web3 from 'web3';
-
+import {ABI,address} from '../config';
 
 class App extends Component {
   constructor(props) {
@@ -22,6 +22,9 @@ class App extends Component {
         await window.ethereum.enable(); // Request user permission to connect
         const accounts = await web3.eth.getAccounts();
         this.setState({ account: accounts[0] });
+       
+        const scontract = new web3.eth.Contract(ABI,address)
+        this.setState({scontract})
       } else {
         console.log('Please install MetaMask or use a compatible browser extension.');
       }
@@ -29,12 +32,20 @@ class App extends Component {
       console.error('Error loading blockchain data:', error);
     }
   }
+  async register(){
+    const {scontract,account} = this.state;
+    await scontract.methods.register().send({from:account});
+  }
 
   render() {
     return (
       <div>
         <h1>REGISTER PAGE</h1>
         <p>Your account: {this.state.account}</p>
+        <div className='container'>
+        <button type="button" class="btn btn-success" onClick={()=>this.register()} style={{marginRight:'40px'}}>Register</button>
+        
+        </div>
       </div>
     );
   }
