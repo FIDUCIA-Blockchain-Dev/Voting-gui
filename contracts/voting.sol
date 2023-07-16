@@ -54,6 +54,7 @@ reveal_winner_time = rev;
         require(msg.sender==chairperson,"not chairperson");
         require(isstarted==false ," started");
         starttime = block.timestamp;
+        isstarted = true;
     }
     function register() public
     {   require(msg.sender!=chairperson,"chairperson");  

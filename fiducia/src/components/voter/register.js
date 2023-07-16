@@ -35,6 +35,7 @@ class App extends Component {
   async register(){
     const {scontract,account} = this.state;
     await scontract.methods.register().send({from:account});
+    
   }
 
   render() {
