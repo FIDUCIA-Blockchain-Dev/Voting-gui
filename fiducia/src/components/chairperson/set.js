@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Web3 from 'web3';
 import { ABI, address } from '../config';
-
+import Candidates_input from './candidates_input.js';
 class App extends Component {
   constructor(props) {
     super(props);
@@ -11,6 +11,7 @@ class App extends Component {
       reg_time: '',
       vote_time: '',
       reveal_time: '',
+      submit_pressed:0,
     };
   }
 
@@ -38,6 +39,7 @@ class App extends Component {
   async set() {
     const {scontract,account,no_of_voters,reg_time,vote_time,reveal_time} = this.state;
     await scontract.methods.set(no_of_voters,reg_time,vote_time,reveal_time).send({from:account});
+    this.setState({submit_pressed:1});
   }
   handle_no_of_voters_Change = (event) => {
     this.setState({ no_of_voters: event.target.value })
@@ -52,38 +54,54 @@ class App extends Component {
     this.setState({ reveal_time: event.target.value })
   }
   render() {
-    return (
-      <div>
-        <h1>SET PAGE</h1>
-        <p>Your account: {this.state.account}</p>
-        <div className='container'>
-          <form>
-            <div class="container mb-3 flex">
-              <label class="form-label">Number of voters</label>
-              <input type="text" class="form-control" id="exampleTo" value={this.state.no_of_voters}
-                onChange={this.handle_no_of_voters_Change} />
-            </div>
-            <div class="container mb-3 flex">
-              <label class="form-label">Register time</label>
-              <input type="text" class="form-control" id="exampleTo" value={this.state.reg_time}
-                onChange={this.handle_reg_time_Change} />
-            </div>
-            <div class="container mb-3 flex">
-              <label class="form-label">Voter time</label>
-              <input type="text" class="form-control" id="exampleTo" value={this.state.vote_time}
-                onChange={this.handle_vote_time_Change} />
-            </div>
-            <div class="container mb-3 flex">
-              <label class="form-label">Reveal the winner time</label>
-              <input type="text" class="form-control" id="exampleTo" value={this.state.reveal_time}
-                onChange={this.handle_reveal_time_Change} />
-            </div>
-            <button type="button" class="btn btn-success" onClick={() => this.set()}>Submit</button>
-          </form>
-        </div>
+    const {submit_pressed} = this.state
 
-      </div>
-    );
+    if(submit_pressed==0)
+    {
+      return (
+     
+        <div>
+          <h1>SET PAGE</h1>
+          <p>Your account: {this.state.account}</p>
+          <div className='container'>
+            <form>
+              <div class="container mb-3 flex">
+                <label class="form-label">Number of voters</label>
+                <input type="text" class="form-control" id="exampleTo" value={this.state.no_of_voters}
+                  onChange={this.handle_no_of_voters_Change} />
+              </div>
+              <div class="container mb-3 flex">
+                <label class="form-label">Register time</label>
+                <input type="text" class="form-control" id="exampleTo" value={this.state.reg_time}
+                  onChange={this.handle_reg_time_Change} />
+              </div>
+              <div class="container mb-3 flex">
+                <label class="form-label">Voter time</label>
+                <input type="text" class="form-control" id="exampleTo" value={this.state.vote_time}
+                  onChange={this.handle_vote_time_Change} />
+              </div>
+              <div class="container mb-3 flex">
+                <label class="form-label">Reveal the winner time</label>
+                <input type="text" class="form-control" id="exampleTo" value={this.state.reveal_time}
+                  onChange={this.handle_reveal_time_Change} />
+              </div>
+              <button type="button" class="btn btn-success" onClick={() => this.set()}>Submit</button>
+            </form>
+          </div>
+  
+        </div>
+      );
+    }
+    else
+    {
+      return (
+     
+        <>
+        <Candidates_input  noOfVoters={this.state.no_of_voters}/>
+        </>
+      );
+    }
+
   }
 }
 
