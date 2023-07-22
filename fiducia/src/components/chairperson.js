@@ -4,6 +4,7 @@ import Reset from './chairperson/reset.js';
 import Set from './chairperson/set.js';
 import Start from './chairperson/start.js';
 
+
 class App extends Component {
   constructor(props) {
     super(props);
@@ -45,6 +46,7 @@ class App extends Component {
 
   render() {
     const {view} = this.state;
+ 
     return (
       <div>
         
@@ -75,10 +77,12 @@ class App extends Component {
 </nav>
 <h1>Hello, Chairperson</h1>
         <p>Your account: {this.state.account}</p>
-        {view=='set' && <Set/>}
+        {view=='set' && <Set />}
         {view=='start' && <Start/>}
         {view=='reset' && <Reset/>}
+       
       </div>
+     
     );
   }
 }

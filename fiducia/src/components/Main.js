@@ -10,7 +10,8 @@ class App extends Component {
     this.state = {
       account: '',
       chairperson:'',
-      status:-1
+      status:-1,
+      
     };
   }
 
@@ -51,15 +52,15 @@ class App extends Component {
       this.setState({status:1})
     }
   }
-
+ 
   render() {
-    const {chairperson,account,status} = this.state;
+    const {chairperson,account,status,dataArray} = this.state;
     
     return (
      <>
    
-     {status==0 && <Chairperson/>}
-     {status==1 && <Voter/>}
+     {status==0 && <Chairperson />}
+     {status==1 && <Voter />}
      </>
     );
   }

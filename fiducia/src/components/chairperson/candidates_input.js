@@ -37,6 +37,14 @@ class App extends Component {
     voterNames[index] = event.target.value;
     this.setState({ voterNames });
   };
+  async submitVoterNames() {
+    
+    const {voterNames} = this.state;
+    await this.setState({ voterNames });
+
+
+    console.log(voterNames);
+  }
   
   render() {
     return (
@@ -51,8 +59,10 @@ class App extends Component {
               value={name}
               onChange={(e) => this.handleVoterNameChange(e, index)}
             />
+             
           </div>
         ))}
+        <button type="button" class="btn btn-success" onClick={()=>this.submitVoterNames()} >Submit</button>
       </div>
     );
   }

@@ -55,7 +55,7 @@ class App extends Component {
   }
   render() {
     const {submit_pressed} = this.state
-
+   
     if(submit_pressed==0)
     {
       return (
@@ -97,7 +97,7 @@ class App extends Component {
       return (
      
         <>
-        <Candidates_input  noOfVoters={this.state.no_of_voters}/>
+        <Candidates_input  noOfVoters={this.state.no_of_voters} />
         </>
       );
     }

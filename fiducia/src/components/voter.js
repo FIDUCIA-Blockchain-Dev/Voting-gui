@@ -44,6 +44,7 @@ class App extends Component {
 
   render() {
     const {view} = this.state;
+   
     return (
       <div>
         
@@ -75,7 +76,7 @@ class App extends Component {
 <h1>Hello, Voter</h1>
       <p>Your account: {this.state.account}</p>
       {view=='register' && <Register/>}
-      {view=='vote' && <Vote/>}
+      {view=='vote' && <Vote />}
       {view=='reveal' && <Reveal/>}
     </div>
     );

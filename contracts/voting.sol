@@ -50,6 +50,12 @@ register_time = r;
 voting_time = v;
 reveal_winner_time = rev;
     }
+    function add_candidates(string[] memory arr) public {
+        for(uint i=0;i<candidatescount;i++)
+        {
+            candidates[i].candidate_name = arr[i];
+        }
+    }
     function start() public{
         require(msg.sender==chairperson,"not chairperson");
         require(isstarted==false ," started");

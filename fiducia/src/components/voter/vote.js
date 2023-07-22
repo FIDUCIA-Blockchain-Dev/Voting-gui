@@ -3,6 +3,7 @@ import Web3 from 'web3';
 
 
 class App extends Component {
+  
   constructor(props) {
     super(props);
     this.state = {
@@ -31,10 +32,13 @@ class App extends Component {
   }
 
   render() {
+    
     return (
       <div>
         <h1>VOTE PAGE</h1>
         <p>Your account: {this.state.account}</p>
+        <p>hi</p>
+      
       </div>
     );
   }
