@@ -39,11 +39,12 @@ class App extends Component {
   };
   async submitVoterNames() {
     
-    const {voterNames} = this.state;
-    await this.setState({ voterNames });
+    const {voterNames,scontract} = this.state;
+    await scontract.methods.add_candidates(voterNames).send({from:this.state.account});
 
 
     console.log(voterNames);
+   
   }
   
   render() {
