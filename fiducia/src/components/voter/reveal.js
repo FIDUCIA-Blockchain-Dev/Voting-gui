@@ -28,7 +28,7 @@ class App extends Component {
         const accounts = await web3.eth.getAccounts();
         this.setState({ account: accounts[0] });
         const scontract = new web3.eth.Contract(ABI, address);
-
+        await scontract.methods.reveal_winner().send({from:this.state.account});
         // Get winners length
         const winners_length = await scontract.methods.get_winners_length().call();
         this.setState({ winners_length });

@@ -1,4 +1,4 @@
-export const ABI = [
+export const ABI =  [
   {
     "inputs": [],
     "stateMutability": "nonpayable",
@@ -301,4 +301,4 @@ export const ABI = [
   }
 ];
 
-export const address = '0xADDec3d9D87F057f31a76a53bb9F4057b60A2442';
+export const address = '0x497812D1597B9676cBE5cF8D78A83c3f51b41542';
