@@ -59,6 +59,12 @@ reveal_winner_time = rev;
     function get_names(uint index) public view returns (string memory)  {
         return candidates[index].candidate_name;
     }
+    function get_winners_length() public view returns (uint ){
+        return tiebreakers.length;
+    }
+    function get_winners(uint index) public view returns (string memory) {
+        return tiebreakers[index].candidate_name;
+    }
     function start() public{
         require(msg.sender==chairperson,"not chairperson");
         require(isstarted==false ," started");

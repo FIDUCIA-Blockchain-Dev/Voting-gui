@@ -219,6 +219,40 @@ export const ABI = [
   },
   {
     "inputs": [],
+    "name": "get_winners_length",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function",
+    "constant": true
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "index",
+        "type": "uint256"
+      }
+    ],
+    "name": "get_winners",
+    "outputs": [
+      {
+        "internalType": "string",
+        "name": "",
+        "type": "string"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function",
+    "constant": true
+  },
+  {
+    "inputs": [],
     "name": "start",
     "outputs": [],
     "stateMutability": "nonpayable",
@@ -267,4 +301,4 @@ export const ABI = [
   }
 ];
 
-export const address = '0xe9b5b6e6A4873Fe49Fc0087C2079115d4Ac37A75';
+export const address = '0xADDec3d9D87F057f31a76a53bb9F4057b60A2442';
