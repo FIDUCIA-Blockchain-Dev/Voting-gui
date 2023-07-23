@@ -9,14 +9,15 @@ class App extends Component {
     this.state = {
       account: '',
       names_array: [],
-      scontract: null, // Initialize scontract as null initially
+      scontract: null,
+      selectedName:'', // Initialize scontract as null initially
     };
   }
 
   componentDidMount() {
     this.loadBlockchainData();
   }
-
+ 
   async get_names() {
     try {
       const { scontract } = this.state;
@@ -58,17 +59,39 @@ class App extends Component {
       console.error('Error loading blockchain data:', error);
     }
   }
-
+  handleNameChange = (event) => {
+    const selectedIndex = parseInt(event.target.value, 10); // Convert the value to an integer
+    this.setState({ selectedName: selectedIndex });
+  };
+  async selectCandidate() {
+    console.log(this.state.selectedName);
+    const {scontract,selectedName} = this.state;
+    await scontract.methods.voting_process(selectedName).send({from:this.state.account});
+  }
   render() {
+    const { selectedName } = this.state;
     return (
       <div>
-        <h1>VOTE PAGE</h1>
-        <p>Your account: {this.state.account}</p>
-        {/* Display candidate names */}
+      <h1>VOTE PAGE</h1>
+      <p>Your account: {this.state.account}</p>
+      {/* Display candidate names */}
+      <div className='container'>
         {this.state.names_array.map((name, index) => (
-          <p key={index}>Candidate {index + 1}: {name}</p>
+          <div key={index}>
+            <input
+              type="radio"
+              name="selectedName" // Set the same name for all radio buttons to create a radio group
+              value={index}
+              id={name}
+              checked={selectedName === index}
+              onChange={this.handleNameChange}
+            />
+            <label htmlFor={name}>{name}</label>
+          </div>
         ))}
+          <button type="button" class="btn btn-success" onClick={() => this.selectCandidate()}>Vote</button>
       </div>
+    </div>
     );
   }
 }
