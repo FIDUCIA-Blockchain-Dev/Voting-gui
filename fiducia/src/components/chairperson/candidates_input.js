@@ -53,7 +53,7 @@ class App extends Component {
         <h2>Enter the candidate details</h2>
         {this.state.voterNames.map((name, index) => (
           <div key={index} className="container mb-3 flex">
-            <h3>Voter {index + 1}</h3>
+            <h3>Candidate {index + 1}</h3>
             <input
               type="text"
               className="form-control"

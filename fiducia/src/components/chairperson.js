@@ -3,7 +3,7 @@ import Web3 from 'web3';
 import Reset from './chairperson/reset.js';
 import Set from './chairperson/set.js';
 import Start from './chairperson/start.js';
-
+import Manage_time from './chairperson/manage_time.js';
 
 class App extends Component {
   constructor(props) {
@@ -43,6 +43,9 @@ class App extends Component {
   async reset() {
     this.setState({view:'reset'})
   }
+  async manage_time() {
+    this.setState({view:'manage time'})
+  }
 
   render() {
     const {view} = this.state;
@@ -67,6 +70,9 @@ class App extends Component {
         <li class="nav-item">
          <button type="button" class="btn btn-success" onClick={()=>this.reset()} style={{marginRight:'40px'}}>Reset</button>
         </li>
+        <li class="nav-item">
+         <button type="button" class="btn btn-success" onClick={()=>this.manage_time()} style={{marginRight:'40px'}}>Manage time duration</button>
+        </li>
         
         
         
@@ -77,9 +83,10 @@ class App extends Component {
 </nav>
 <h1>Hello, Chairperson</h1>
         <p>Your account: {this.state.account}</p>
-        {view=='set' && <Set />}
-        {view=='start' && <Start/>}
-        {view=='reset' && <Reset/>}
+        {view==='set' && <Set />}
+        {view==='start' && <Start/>}
+        {view==='reset' && <Reset/>}
+        {view==='manage time' && <Manage_time/>}
        
       </div>
      

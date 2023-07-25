@@ -37,8 +37,8 @@ class App extends Component {
     }
   }
   async set() {
-    const {scontract,account,no_of_voters,reg_time,vote_time,reveal_time} = this.state;
-    await scontract.methods.set(no_of_voters,reg_time,vote_time,reveal_time).send({from:account});
+    const {scontract,account,no_of_voters} = this.state;
+    await scontract.methods.set(no_of_voters).send({from:account});
     this.setState({submit_pressed:1});
   }
   handle_no_of_voters_Change = (event) => {
@@ -66,25 +66,11 @@ class App extends Component {
           <div className='container'>
             <form>
               <div class="container mb-3 flex">
-                <label class="form-label">Number of voters</label>
+                <label class="form-label">Number of Candidates</label>
                 <input type="text" class="form-control" id="exampleTo" value={this.state.no_of_voters}
                   onChange={this.handle_no_of_voters_Change} />
               </div>
-              <div class="container mb-3 flex">
-                <label class="form-label">Register time</label>
-                <input type="text" class="form-control" id="exampleTo" value={this.state.reg_time}
-                  onChange={this.handle_reg_time_Change} />
-              </div>
-              <div class="container mb-3 flex">
-                <label class="form-label">Voter time</label>
-                <input type="text" class="form-control" id="exampleTo" value={this.state.vote_time}
-                  onChange={this.handle_vote_time_Change} />
-              </div>
-              <div class="container mb-3 flex">
-                <label class="form-label">Reveal the winner time</label>
-                <input type="text" class="form-control" id="exampleTo" value={this.state.reveal_time}
-                  onChange={this.handle_reveal_time_Change} />
-              </div>
+           
               <button type="button" class="btn btn-success" onClick={() => this.set()}>Submit</button>
             </form>
           </div>

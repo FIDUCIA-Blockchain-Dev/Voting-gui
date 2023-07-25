@@ -26,16 +26,18 @@ contract voting{
     uint public starttime;
    bool isset = false;
    bool isstarted = false;
-uint register_time;
-uint voting_time;
-uint reveal_winner_time;
+    bool isstartedregister = false;
+    bool isstoppedregister = false;
+    bool isstartedvoting = false;
+    bool isstoppedvoting = false;
+    bool isstartedreveal = false;
     constructor()  {
             
             chairperson = msg.sender;
             
                 
     }
-    function set(uint no_of_voters,uint r,uint v,uint rev) public {
+    function set(uint no_of_voters) public {
         require(msg.sender==chairperson);
         require(isset==false);
         for(uint i=0;i<no_of_voters;i++)
@@ -46,9 +48,7 @@ uint reveal_winner_time;
         }
         candidatescount = no_of_voters;
         isset = true;
-register_time = r;
-voting_time = v;
-reveal_winner_time = rev;
+
     }
     function add_candidates(string[] memory arr) public {
         for(uint i=0;i<candidatescount;i++)
@@ -71,8 +71,44 @@ reveal_winner_time = rev;
         starttime = block.timestamp;
         isstarted = true;
     }
+
+    function start_register() public {
+         require(msg.sender==chairperson,"chairperson");
+        isstartedregister = true;
+    }
+    function stop_register() public {
+         require(msg.sender==chairperson,"chairperson");
+        isstartedregister = false;
+        isstoppedregister = true;
+    }
+    function start_voting() public {
+         require(msg.sender==chairperson,"chairperson");
+        require(isstartedregister==false,"chairperson has  started register process");
+    require(isstoppedregister==true,"chairperson has not stopped register process");
+        isstartedvoting = true;
+    }
+    function stop_voting() public {
+         require(msg.sender==chairperson,"chairperson");
+             require(isstartedregister==false,"chairperson has  started register process");
+    require(isstoppedregister==true,"chairperson has not stopped register process");
+        isstartedvoting = false;
+        isstoppedvoting = true;
+    }
+    function start_reveal() public {
+        require(msg.sender==chairperson,"chairperson");
+          require(isstartedregister==false,"chairperson has  started register process");
+    require(isstoppedregister==true,"chairperson has not stopped register process");
+    require(isstartedvoting==false,"chairperson has   started voting process");
+    require(isstoppedvoting==true,"chairperson has not  stopped voting process");
+            isstartedreveal = true;
+    }
     function register() public
-    {   require(msg.sender!=chairperson,"chairperson");  
+    {   require(msg.sender!=chairperson,"chairperson");
+    require(isstartedregister==true,"chairperson has not started register process");
+    require(isstoppedregister==false,"chairperson has stopped register process");
+    require(isstartedvoting==false,"chairperson has started voting process");
+    require(isstoppedvoting==false,"chairperson has stopped voting process");
+    require(isstartedreveal==false,"chairperson has started revealing the winners");   
     require(isset==true,"chairpeson did not set");
     require(isstarted==true,"chairperson did not start");
         address voter = msg.sender;
@@ -88,7 +124,12 @@ reveal_winner_time = rev;
     {     // require(block.timestamp>= starttime + register_time*1 minutes && block.timestamp<= starttime + voting_time*1 minutes);
             require(voters[msg.sender].weight !=0,"voter not registered");
             require(!voters[msg.sender].voted,"voter already voted");
-
+             require(msg.sender!=chairperson,"chairperson");
+    require(isstartedregister==false,"chairperson has  started register process");
+    require(isstoppedregister==true,"chairperson has not stopped register process");
+    require(isstartedvoting==true,"chairperson has not  started voting process");
+    require(isstoppedvoting==false,"chairperson has stopped voting process");
+    require(isstartedreveal==false,"chairperson has started revealing the winners");  
             
             
                 voters[msg.sender].vote = vo;
@@ -99,7 +140,12 @@ reveal_winner_time = rev;
 
     function reveal_winner() public   
     {  //require(block.timestamp>=starttime + reveal_winner_time*1 minutes);
-   
+         require(msg.sender!=chairperson,"chairperson");
+    require(isstartedregister==false,"chairperson has  started register process");
+    require(isstoppedregister==true,"chairperson has not stopped register process");
+    require(isstartedvoting==false,"chairperson has   started voting process");
+    require(isstoppedvoting==true,"chairperson has not  stopped voting process");
+    require(isstartedreveal==true,"chairperson has not started revealing the winners");   
        
         tiecalculate();
         

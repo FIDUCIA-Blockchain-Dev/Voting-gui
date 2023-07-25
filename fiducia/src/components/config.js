@@ -162,21 +162,6 @@ export const ABI =  [
         "internalType": "uint256",
         "name": "no_of_voters",
         "type": "uint256"
-      },
-      {
-        "internalType": "uint256",
-        "name": "r",
-        "type": "uint256"
-      },
-      {
-        "internalType": "uint256",
-        "name": "v",
-        "type": "uint256"
-      },
-      {
-        "internalType": "uint256",
-        "name": "rev",
-        "type": "uint256"
       }
     ],
     "name": "set",
@@ -260,6 +245,41 @@ export const ABI =  [
   },
   {
     "inputs": [],
+    "name": "start_register",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "stop_register",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "start_voting",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "stop_voting",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "start_reveal",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [],
     "name": "register",
     "outputs": [],
     "stateMutability": "nonpayable",
@@ -301,4 +321,4 @@ export const ABI =  [
   }
 ];
 
-export const address = '0x497812D1597B9676cBE5cF8D78A83c3f51b41542';
+export const address = '0xf9997Ad05aDEcc4A4d359fE4a2CFa7d6c7F416e9';
