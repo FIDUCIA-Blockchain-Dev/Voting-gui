@@ -206,6 +206,11 @@ contract voting{
         {
             delete voters[voter_address[i]];
         }
+    isstartedregister = false;
+    isstoppedregister = false;
+    isstartedvoting = false;
+    isstoppedvoting = false;
+    isstartedreveal = false;
         
         
         
