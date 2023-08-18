@@ -8,6 +8,8 @@ class App extends Component {
     this.state = {
       account: '',
       voterNames: Array.from({ length: this.props.noOfVoters }, () => ''),
+      error:0,
+      candidate_entered:0
     };
   }
 
@@ -40,7 +42,16 @@ class App extends Component {
   async submitVoterNames() {
     
     const {voterNames,scontract} = this.state;
-    await scontract.methods.add_candidates(voterNames).send({from:this.state.account});
+    try
+    {
+      await scontract.methods.add_candidates(voterNames).send({from:this.state.account});
+      this.setState({candidate_entered:1})
+    }
+    catch(error)
+    {
+      this.setState({error:1})
+    }
+    
 
 
     console.log(voterNames);
@@ -48,9 +59,14 @@ class App extends Component {
   }
   
   render() {
+    const {error,candidate_entered} = this.state;
     return (
       <div>
-        <h2>Enter the candidate details</h2>
+        {error===1 && <div><div class="alert alert-danger alert-dismissible fade show" role="alert">
+  You have rejected the transaction. Please try again
+  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div></div>}
+{candidate_entered===0 && <> <h2>Enter the candidate details</h2>
         {this.state.voterNames.map((name, index) => (
           <div key={index} className="container mb-3 flex">
             <h3>Candidate {index + 1}</h3>
@@ -63,7 +79,13 @@ class App extends Component {
              
           </div>
         ))}
-        <button type="button" class="btn btn-success" onClick={()=>this.submitVoterNames()} >Submit</button>
+        <button type="button" class="btn btn-success" onClick={()=>this.submitVoterNames()} >Submit</button></>}
+        {candidate_entered===1 && <div><div class="alert alert-success alert-dismissible fade show" role="alert">
+  You have entered candidate details thank you.
+  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div></div>}
+
+       
       </div>
     );
   }

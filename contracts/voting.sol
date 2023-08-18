@@ -50,6 +50,28 @@ contract voting{
         isset = true;
 
     }
+    function get_isstarted() public view returns (bool) {
+        return isstarted;
+    }
+     function get_isset() public view returns (bool) {
+        return isset;
+    }
+     function get_isstartedregister() public view returns (bool) {
+        return isstartedregister;
+    }
+     function get_isstoppedregister() public view returns (bool) {
+        return isstoppedregister;
+    }
+     function get_isstartedvoting() public view returns (bool) {
+        return isstartedvoting;
+    }
+     function get_isstoppedvoting() public view returns (bool) {
+        return isstoppedvoting;
+    }
+     function get_isstartedreveal() public view returns (bool) {
+        return isstartedreveal;
+    }
+    
     function add_candidates(string[] memory arr) public {
         for(uint i=0;i<candidatescount;i++)
         {

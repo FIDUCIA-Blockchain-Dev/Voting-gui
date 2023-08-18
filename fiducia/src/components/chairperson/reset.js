@@ -6,7 +6,9 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      account: ''
+      account: '',
+      error:0,
+      ispressed:0,
     };
   }
 
@@ -33,14 +35,32 @@ class App extends Component {
   }
   async reset() {
     const {scontract,account} = this.state;
-    await scontract.methods.reset().send({from:account});
+    try
+    { this.setState({ispressed:0})
+      await scontract.methods.reset().send({from:account});
+      this.setState({ispressed:1})
+    }
+    catch(error)
+    {
+      this.setState({error:1})
+    }
+   
   }
   render() {
+    const {error,ispressed} = this.state;
     return (
       <div>
         <h1>RESET PAGE</h1>
         <p>Your account: {this.state.account}</p>
         <div className='container'>
+        {error===1 && <div><div class="alert alert-danger alert-dismissible fade show" role="alert">
+  You have rejected the transaction. Please try again
+  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div></div>}
+{ispressed===1 && <div><div class="alert alert-success alert-dismissible fade show" role="alert">
+  You have reset the voting system
+  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div></div>}
         <button type="button" class="btn btn-success" onClick={()=>this.reset()} style={{marginRight:'40px'}}>Reset</button>
         
         </div>

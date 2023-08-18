@@ -8,7 +8,9 @@ class App extends Component {
     this.state = {
       account: '',
       starttime:'',
-      clicked:0
+      clicked:0,
+      error:0,
+      isstarted:false,
     };
   }
 
@@ -25,7 +27,17 @@ class App extends Component {
         const accounts = await web3.eth.getAccounts();
         this.setState({ account: accounts[0] });
         const scontract = new web3.eth.Contract(ABI,address)
-    this.setState({scontract})
+    this.setState({scontract});
+    try
+    {
+       const isstarted1 = await scontract.methods.get_isstarted().call();
+    this.setState({isstarted:isstarted1})
+    
+    }
+    catch(error)
+    {
+      this.setState({error:1})
+    }
       } else {
         console.log('Please install MetaMask or use a compatible browser extension.');
       }
@@ -37,14 +49,34 @@ class App extends Component {
   async start()
   {
     const {scontract,account} = this.state;
-   await scontract.methods.start().send({from:account});
+    try
+    {
+      await scontract.methods.start().send({from:account});
     const starttime1 =  await scontract.methods.starttime().call();
     this.setState({starttime:starttime1,clicked:1})
+   
+    }
+    catch(error)
+    {
+      this.setState({error:1});
+    }
+    try
+    {
+       const isstarted1 = await scontract.methods.get_isstarted().call();
+    this.setState({isstarted:isstarted1})
+    
+    }
+    catch(error)
+    {
+      this.setState({error:1})
+    }
+   
+   
 
   }
 
   render() {
-    const {starttime} = this.state;
+    const {error,isstarted} = this.state;
     return (
       <div>
         <h1>START PAGE</h1>
@@ -53,7 +85,17 @@ class App extends Component {
 
         
         <div className='container'>
-        <button type="button" class="btn btn-success" onClick={()=>this.start()} style={{marginRight:'40px'}}>Start</button>
+        {error===1 && <div><div class="alert alert-danger alert-dismissible fade show" role="alert">
+  You have rejected the transaction. Please try again
+  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div></div>}
+
+{isstarted===true && <div><div class="alert alert-success alert-dismissible fade show" role="alert">
+  You have started the voting system.
+  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div></div>}
+{isstarted===false && <div> <button type="button" class="btn btn-success" onClick={()=>this.start()} style={{marginRight:'40px'}}>Start</button></div>}
+       
         
         </div>
       </div>

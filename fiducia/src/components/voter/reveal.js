@@ -9,6 +9,7 @@ class App extends Component {
       account: '',
       winners_length: 0,
       winners: [],
+      error:0,
     };
 
     // Bind the functions to the current instance of App
@@ -28,7 +29,16 @@ class App extends Component {
         const accounts = await web3.eth.getAccounts();
         this.setState({ account: accounts[0] });
         const scontract = new web3.eth.Contract(ABI, address);
-        await scontract.methods.reveal_winner().send({from:this.state.account});
+        try
+        {
+          await scontract.methods.reveal_winner().send({from:this.state.account});
+
+        }
+        catch(Error)
+        {
+          this.setState({error:1})
+        } 
+        
         // Get winners length
         const winners_length = await scontract.methods.get_winners_length().call();
         this.setState({ winners_length });
@@ -49,12 +59,15 @@ class App extends Component {
   }
 
   render() {
-    const { account, winners_length, winners } = this.state;
+    const { account, winners_length, winners ,error} = this.state;
     return (
       <div>
         <h1>REVEAL WINNER PAGE</h1>
         <p>Your account: {account}</p>
-        <p>Number of winners: {winners_length}</p>
+        {error===1 && <div><div class="alert alert-danger alert-dismissible fade show" role="alert">
+  You have rejected the transaction. Please try again
+  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div></div>}
         <ul>
           {winners.map((winner, index) => (
             <li key={index}>{winner}</li>

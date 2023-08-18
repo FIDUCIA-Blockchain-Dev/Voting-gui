@@ -12,6 +12,7 @@ class App extends Component {
       vote_time: '',
       reveal_time: '',
       submit_pressed:0,
+      error:0,
     };
   }
 
@@ -38,8 +39,16 @@ class App extends Component {
   }
   async set() {
     const {scontract,account,no_of_voters} = this.state;
-    await scontract.methods.set(no_of_voters).send({from:account});
+    try
+    {
+      await scontract.methods.set(no_of_voters).send({from:account});
     this.setState({submit_pressed:1});
+    }
+    catch(error)
+    {
+      this.setState({error:1})
+    }
+    
   }
   handle_no_of_voters_Change = (event) => {
     this.setState({ no_of_voters: event.target.value })
@@ -54,16 +63,21 @@ class App extends Component {
     this.setState({ reveal_time: event.target.value })
   }
   render() {
-    const {submit_pressed} = this.state
+    const {submit_pressed,error} = this.state
    
-    if(submit_pressed==0)
+    if(submit_pressed===0)
     {
       return (
      
         <div>
           <h1>SET PAGE</h1>
           <p>Your account: {this.state.account}</p>
+
           <div className='container'>
+          {error===1 && <div><div class="alert alert-danger alert-dismissible fade show" role="alert">
+  You have rejected the transaction. Please try again
+  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div></div>}
             <form>
               <div class="container mb-3 flex">
                 <label class="form-label">Number of Candidates</label>
@@ -74,7 +88,7 @@ class App extends Component {
               <button type="button" class="btn btn-success" onClick={() => this.set()}>Submit</button>
             </form>
           </div>
-  
+          
         </div>
       );
     }

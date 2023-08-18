@@ -6,7 +6,8 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      account: ''
+      account: '',
+      error:0,
     };
   }
 
@@ -34,16 +35,29 @@ class App extends Component {
   }
   async register(){
     const {scontract,account} = this.state;
-    await scontract.methods.register().send({from:account});
+    try
+    {
+      await scontract.methods.register().send({from:account});
+    }
+    catch(error)
+    {
+      this.setState({error:1})
+    }
+    
     
   }
 
   render() {
+    const {error} = this.state;
     return (
       <div>
         <h1>REGISTER PAGE</h1>
         <p>Your account: {this.state.account}</p>
         <div className='container'>
+        {error===1 && <div><div class="alert alert-danger alert-dismissible fade show" role="alert">
+  You have rejected the transaction. Please try again
+  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div></div>}
         <button type="button" class="btn btn-success" onClick={()=>this.register()} style={{marginRight:'40px'}}>Register</button>
         
         </div>
