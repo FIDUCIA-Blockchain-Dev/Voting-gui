@@ -4,7 +4,7 @@ import Reset from './chairperson/reset.js';
 import Set from './chairperson/set.js';
 import Start from './chairperson/start.js';
 import Manage_time from './chairperson/manage_time.js';
-
+import Start_Feedback from './chairperson/start_feedback.js';
 class App extends Component {
   constructor(props) {
     super(props);
@@ -46,6 +46,9 @@ class App extends Component {
   async manage_time() {
     this.setState({view:'manage time'})
   }
+  async start_feedback(){
+    this.setState({view:'feedback'})
+  }
 
   render() {
     const {view} = this.state;
@@ -73,6 +76,9 @@ class App extends Component {
         <li class="nav-item">
          <button type="button" class="btn btn-success" onClick={()=>this.manage_time()} style={{marginRight:'40px'}}>Manage time duration</button>
         </li>
+        <li class="nav-item">
+         <button type="button" class="btn btn-success" onClick={()=>this.start_feedback()} style={{marginRight:'40px'}}>Start Feedback</button>
+        </li>
         
         
         
@@ -87,6 +93,7 @@ class App extends Component {
         {view==='start' && <Start/>}
         {view==='reset' && <Reset/>}
         {view==='manage time' && <Manage_time/>}
+        {view==='feedback' && <Start_Feedback/>}
        
       </div>
      
