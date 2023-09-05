@@ -91,7 +91,7 @@ class App extends Component {
 </div></div>}
 
 
- && <div> <button type="button" class="btn btn-success" onClick={()=>this.start()} style={{marginRight:'40px'}}>Start</button></div>
+  <div> <button type="button" class="btn btn-success" onClick={()=>this.start()} style={{marginRight:'40px'}}>Start</button></div>
        
         
         </div>

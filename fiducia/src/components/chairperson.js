@@ -5,6 +5,9 @@ import Set from './chairperson/set.js';
 import Start from './chairperson/start.js';
 import Manage_time from './chairperson/manage_time.js';
 import Start_Feedback from './chairperson/start_feedback.js';
+import Questions_Feedback from './chairperson/questions_input_feedback.js';
+import Reset_Feedback from './chairperson/reset_feedback.js';
+import Get_Answers from './chairperson/getAnswers_feedback.js';
 class App extends Component {
   constructor(props) {
     super(props);
@@ -49,6 +52,15 @@ class App extends Component {
   async start_feedback(){
     this.setState({view:'feedback'})
   }
+  async questions_input_feedback(){
+    this.setState({view:'questions_input'})
+  }
+  async get_answers_feedback(){
+    this.setState({view:'get_answers'})
+  }
+  async reset_feedback(){
+    this.setState({view:'reset_feedback'})
+  }
 
   render() {
     const {view} = this.state;
@@ -79,6 +91,15 @@ class App extends Component {
         <li class="nav-item">
          <button type="button" class="btn btn-success" onClick={()=>this.start_feedback()} style={{marginRight:'40px'}}>Start Feedback</button>
         </li>
+        <li class="nav-item">
+         <button type="button" class="btn btn-success" onClick={()=>this.questions_input_feedback()} style={{marginRight:'40px'}}>Questions input Feedback</button>
+        </li>
+        <li class="nav-item">
+         <button type="button" class="btn btn-success" onClick={()=>this.get_answers_feedback()} style={{marginRight:'40px'}}>Get Answers Feedback</button>
+        </li>
+        <li class="nav-item">
+         <button type="button" class="btn btn-success" onClick={()=>this.reset_feedback()} style={{marginRight:'40px'}}>Reset Feedback</button>
+        </li>
         
         
         
@@ -94,6 +115,9 @@ class App extends Component {
         {view==='reset' && <Reset/>}
         {view==='manage time' && <Manage_time/>}
         {view==='feedback' && <Start_Feedback/>}
+        {view==='questions_input' && <Questions_Feedback/>}
+        {view==='get_answers' && <Get_Answers/>}
+        {view==='reset_feedback' && <Reset_Feedback/>}
        
       </div>
      
