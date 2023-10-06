@@ -37,7 +37,10 @@ class App extends Component {
     }
   }
 
- 
+ async reset() {
+  const {scontract,account} = this.state;
+  await scontract.methods.reset().send({from:account});
+ }
  
   render() {
     
@@ -46,6 +49,10 @@ class App extends Component {
       <>
 
    <h4>RESET</h4>
+   <div className='container'>
+   <button type="button" class="btn btn-success" onClick={()=>this.reset()} style={{marginRight:'40px'}}>Reset</button>
+   </div>
+  
     </>
     );
   }

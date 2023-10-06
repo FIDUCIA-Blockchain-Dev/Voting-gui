@@ -16,6 +16,13 @@ contract feedback {
         
         bool registered;
     }
+    struct answers_with_question
+    {
+        uint question_no;
+        string[4] answers;
+        string type_of_answer;
+    }
+    answers_with_question[] public Answers_with_Question;
     bool public start = false;
     address[] registered_users;
     mapping(address=>User) public users;
@@ -30,7 +37,19 @@ contract feedback {
 
     function questions_input(string calldata question) public {
         require(start, "Question input is not allowed before starting.");
+        require(msg.sender==chairperson,"only chairperson is allowed to input question");
         Questions.push(question);
+    }
+    function answers_input(uint q_no,string[4] memory answer,string memory t) public {
+        require(start, "Question input is not allowed before starting.");
+         require(msg.sender==chairperson,"only chairperson is allowed to input options");
+         require(q_no >= 0 && q_no < Questions.length, "Invalid question number");
+         Answers_with_Question.push(answers_with_question({
+            question_no:q_no,
+            answers:answer,
+            type_of_answer:t
+         }));
+
     }
     function register() public 
     {     
@@ -94,6 +113,10 @@ function reset() public
     for(uint i=0;i<Questions.length;i++)
     {
         delete Questions[i];
+    }
+    for(uint i=0;i<Answers_with_Question.length;i++)
+    {
+        delete Answers_with_Question[i];
     }
   
 }
