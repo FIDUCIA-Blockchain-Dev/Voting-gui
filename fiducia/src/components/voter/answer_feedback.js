@@ -14,6 +14,7 @@ class App extends Component {
       type_of_ans: '',
       option_array: [],
       isReset:false,
+      selectedOptions: [],
     };
   }
 
@@ -97,11 +98,49 @@ class App extends Component {
     }
     this.setState({option_array:d})
   }
-  handleOptions = () => {
-
-  }
+  handleOptions = (e, questionIndex, optionIndex) => {
+    const { selectedOptions } = this.state;
+    const newSelectedOptions = [...selectedOptions];
+  
+    // Toggle the option's selection state
+    if (e.target.checked) {
+      newSelectedOptions[questionIndex] = newSelectedOptions[questionIndex] || [];
+      newSelectedOptions[questionIndex][optionIndex] = e.target.value;
+    } else {
+      newSelectedOptions[questionIndex][optionIndex] = "";
+    }
+  
+    this.setState({ selectedOptions: newSelectedOptions });
+  };
   async inputAnswers() {
-
+    const { selectedOptions, scontract, account } = this.state;
+  
+    // Loop through selectedOptions and process the selected options as needed
+    for (let i = 0; i < selectedOptions.length; i++) {
+      const selectedQuestionOptions = selectedOptions[i];
+      console.log(`Question ${i + 1} - Selected Options:`, selectedQuestionOptions);
+      
+      for (let j = 0; j < 4; j++) {
+        if (selectedOptions[i][j] !== undefined) {
+          console.log(selectedOptions[i][j]);
+          await this.sendAnswer(i, selectedOptions[i][j], scontract, account);
+        }
+      }
+      console.log("answer string:"+await scontract.methods.getAnswersForQuestion(i).call());
+      // You can perform further actions with the selected options here
+    }
+  }
+  
+  async sendAnswer(questionIndex, selectedOption, scontract, account) {
+    try {
+      await scontract.methods.answers(questionIndex, selectedOption).send({ from: account });
+      console.log(`Answer for Question ${questionIndex + 1} sent successfully.`);
+      // You can add any additional handling or error checking here
+    } catch (error) {
+      console.error(`Error sending answer for Question ${questionIndex + 1}:`, error);
+      // Handle errors as needed
+    }
+    
   }
 
   async get_isReset()
@@ -113,7 +152,7 @@ class App extends Component {
   async reset()
   { const {scontract} = this.state;
     this.setState({
-      account: '',
+      
       no_of_q: 0,
       questions_array: [],
       type_of_ans: '',
@@ -137,7 +176,8 @@ class App extends Component {
                   <div style={{ display: 'flex' }}>
                     {option_array[index].map((option, innerIndex) => (
                       <div key={innerIndex} className="form-check" style={{ marginRight: '10px' }}>
-                        <input className="form-check-input" type="checkbox" value={option} id={`flexCheckDefault${index}-${innerIndex}`} onChange={this.handleOptions} />
+                        <input className="form-check-input" type="checkbox" value={option} id={`flexCheckDefault${index}-${innerIndex}`}  checked={this.state.selectedOptions[index] && this.state.selectedOptions[index][innerIndex] === option}
+      onChange={(e) => this.handleOptions(e, index, innerIndex)} />
                         <label className="form-check-label" htmlFor={`flexCheckDefault${index}-${innerIndex}`}>
                           {option}
                         </label>
@@ -182,18 +222,10 @@ class App extends Component {
               {questions_array.map((question, index) => (
                 <div key={index}>
                   <h5>{index + 1}: {question}</h5>
-      
+                  
+                  <input type="text" class="form-control" placeholder="Username"  onChange={this.handleOptions} aria-label="Username" aria-describedby="basic-addon1"/>
                   {/* Render options for the current question */}
-                  <div style={{ display: 'flex' }}>
-                    {option_array[index].map((option, innerIndex) => (
-                      <div key={innerIndex} className="form-check" style={{ marginRight: '10px' }}>
-                        <input className="form-check-input" type="checkbox" value={option} id={`flexCheckDefault${index}-${innerIndex}`} onChange={this.handleOptions} />
-                        <label className="form-check-label" htmlFor={`flexCheckDefault${index}-${innerIndex}`}>
-                          {option}
-                        </label>
-                      </div>
-                    ))}
-                  </div>
+                 
                 </div>
               ))}
                <div className='container mb-3 flex' style={{ marginUp: '100px' }}>
