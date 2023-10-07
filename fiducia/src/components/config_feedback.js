@@ -180,6 +180,33 @@ export const ABI = [
     "type": "function"
   },
   {
+    "inputs": [
+      {
+        "internalType": "bool",
+        "name": "a",
+        "type": "bool"
+      }
+    ],
+    "name": "set_isReset",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "get_isReset",
+    "outputs": [
+      {
+        "internalType": "bool",
+        "name": "",
+        "type": "bool"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function",
+    "constant": true
+  },
+  {
     "inputs": [],
     "name": "no_of_q",
     "outputs": [
@@ -342,4 +369,4 @@ export const ABI = [
     "type": "function"
   }
 ]
-export const address = "0xE40c902703DD7bA6f616Bde908eA34DbA1b97F10"
+export const address = "0xefe86ce73936c891B7FC4054BDeeBC45A41AdaD5"

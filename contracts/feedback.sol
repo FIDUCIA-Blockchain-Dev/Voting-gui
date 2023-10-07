@@ -26,6 +26,7 @@ contract feedback {
     bool public start = false;
     address[] registered_users;
     mapping(address=>User) public users;
+    bool isReset = false;
     constructor() {
         chairperson = msg.sender;
     }
@@ -33,6 +34,12 @@ contract feedback {
     function Start() public {
         //require(!start, "already started");
         start = true;
+    }
+    function set_isReset(bool a) public {
+        isReset = a;
+    }
+    function get_isReset() public view returns (bool) {
+        return isReset;
     }
     function no_of_q() public view returns (uint){
         return Questions.length;
@@ -123,28 +130,48 @@ function reset() public
     //Questions_And_Answers
     //users
     //Questions
-    for(uint i=0;i<Questions_And_Answers.length;i++)
+   /* for(uint i=0;i<Questions_And_Answers.length;i++)
     {
         delete Questions_And_Answers[i];
+    }*/
+    while(Questions_And_Answers.length>0)
+    {
+        Questions_And_Answers.pop();
     }
+    
     for(uint i=0;i<registered_users.length;i++)
     {
         delete users[registered_users[i]];
     }
-    for(uint i=0;i<Questions.length;i++)
+    /*for(uint i=0;i<Questions.length;i++)
     {
         delete Questions[i];
+    }*/
+    while(Questions.length>0)
+    {
+        Questions.pop();
     }
-    for(uint i=0;i<Answers_with_Question.length;i++)
+    
+    /*for(uint i=0;i<Answers_with_Question.length;i++)
     {
         delete Answers_with_Question[i];
+    }*/
+    while(Answers_with_Question.length>0)
+    {
+        Answers_with_Question.pop();
     }
+   
      // Iterate through the keys and delete the values
         for (uint i = 0; i < keys.length; i++) {
             delete AnswersMap[keys[i]];
         }
         // Clear the keys array
-        delete keys;
+        //delete keys;
+        while(keys.length>0)
+        {
+            keys.pop();
+        }
+        
 }
 
 }

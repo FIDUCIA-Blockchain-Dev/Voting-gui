@@ -3,6 +3,7 @@ import Web3 from 'web3';
 
 import { ABI, address } from '../config_feedback.js';
 
+
 class App extends Component {
   constructor(props) {
     super(props);
@@ -12,6 +13,7 @@ class App extends Component {
       questions_array: [],
       type_of_ans: '',
       option_array: [],
+      isReset:false,
     };
   }
 
@@ -33,6 +35,11 @@ class App extends Component {
         const scontract = new web3.eth.Contract(ABI, address);
         this.setState({ scontract }, async () => {
           // First, get the number of questions
+          await this.get_isReset();
+          if(this.state.isReset===true)
+          {
+            await this.reset();
+          }
           await this.no_of_questions();
           // Then, fetch the questions
           await this.questions();
@@ -54,6 +61,7 @@ class App extends Component {
     const { scontract } = this.state;
     const a = await scontract.methods.no_of_q().call();
     this.setState({ no_of_q: a });
+    console.log("no of questions:"+a);
   }
 
   async questions() {
@@ -95,13 +103,31 @@ class App extends Component {
   async inputAnswers() {
 
   }
+
+  async get_isReset()
+  {
+    const {scontract} = this.state;
+    let isReset1 = await scontract.methods.get_isReset().call();
+    this.setState({isReset:isReset1})
+  }
+  async reset()
+  { const {scontract} = this.state;
+    this.setState({
+      account: '',
+      no_of_q: 0,
+      questions_array: [],
+      type_of_ans: '',
+      option_array: [],
+    });
+    await scontract.methods.set_isReset(false).send({from:this.state.account});
+  }
   render() {
-    const { questions_array, option_array } = this.state;
+    const { questions_array, option_array,type_of_ans } = this.state;
     return (
       <>
         
   
-        {option_array.length > 0 && (
+        {option_array.length > 0 && type_of_ans === 'checkbox' && (
               <div className='container'>
               {questions_array.map((question, index) => (
                 <div key={index}>
@@ -126,6 +152,57 @@ class App extends Component {
             </div>
            
         )}
+        {option_array.length > 0 && type_of_ans === 'radiobutton' && (
+              <div className='container'>
+              {questions_array.map((question, index) => (
+                <div key={index}>
+                  <h5>{index + 1}: {question}</h5>
+      
+                  {/* Render options for the current question */}
+                  <div style={{ display: 'flex' }}>
+                    {option_array[index].map((option, innerIndex) => (
+                      <div key={innerIndex} className="form-check" style={{ marginRight: '10px' }}>
+                        <input className="form-check-input" type="radio" value={option} name={`radioGroup_${index}`} id={`flexCheckDefault${index}-${innerIndex}`} onChange={this.handleOptions} />
+                        <label className="form-check-label" htmlFor={`flexCheckDefault${index}-${innerIndex}`}>
+                          {option}
+                        </label>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              ))}
+               <div className='container mb-3 flex' style={{ marginUp: '100px' }}>
+            <button  type="button"class="btn btn-success" onClick={() => this.inputAnswers()}>Submit</button>
+            </div>
+            </div>
+           
+        )}
+        {option_array.length > 0 && type_of_ans === 'text field' && (
+              <div className='container'>
+              {questions_array.map((question, index) => (
+                <div key={index}>
+                  <h5>{index + 1}: {question}</h5>
+      
+                  {/* Render options for the current question */}
+                  <div style={{ display: 'flex' }}>
+                    {option_array[index].map((option, innerIndex) => (
+                      <div key={innerIndex} className="form-check" style={{ marginRight: '10px' }}>
+                        <input className="form-check-input" type="checkbox" value={option} id={`flexCheckDefault${index}-${innerIndex}`} onChange={this.handleOptions} />
+                        <label className="form-check-label" htmlFor={`flexCheckDefault${index}-${innerIndex}`}>
+                          {option}
+                        </label>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              ))}
+               <div className='container mb-3 flex' style={{ marginUp: '100px' }}>
+            <button  type="button"class="btn btn-success" onClick={() => this.inputAnswers()}>Submit</button>
+            </div>
+            </div>
+           
+        )}
+        
       </>
     );
   }
