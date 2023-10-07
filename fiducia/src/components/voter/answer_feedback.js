@@ -15,6 +15,8 @@ class App extends Component {
       option_array: [],
       isReset:false,
       selectedOptions: [],
+      selectedRadioOptions: [],
+      textResponses: [],
     };
   }
 
@@ -160,6 +162,77 @@ class App extends Component {
     });
     await scontract.methods.set_isReset(false).send({from:this.state.account});
   }
+  handleRadio = (e, questionIndex) => {
+    const { selectedRadioOptions } = this.state;
+    const newSelectedRadioOptions = [...selectedRadioOptions];
+  
+    // Update the selected radio option for the current question
+    newSelectedRadioOptions[questionIndex] = e.target.value;
+  
+    this.setState({ selectedRadioOptions: newSelectedRadioOptions });
+  };
+  async inputRadio() {
+    const { selectedRadioOptions, scontract, account } = this.state;
+  
+    // Loop through selectedRadioOptions and process the selected options as needed
+    for (let i = 0; i < selectedRadioOptions.length; i++) {
+      const selectedOption = selectedRadioOptions[i];
+      console.log(`Question ${i + 1} - Selected Option:`, selectedOption);
+  
+      if (selectedOption) {
+        this.sendRadioAnswer(i, selectedOption, scontract, account);
+        console.log("answer string:"+await scontract.methods.getAnswersForQuestion(i).call());
+      }
+      
+    }
+  }
+  
+  async sendRadioAnswer(questionIndex, selectedOption, scontract, account) {
+    try {
+      await scontract.methods.answers(questionIndex, selectedOption).send({ from: account });
+      console.log(`Answer for Question ${questionIndex + 1} sent successfully.`);
+      // You can add any additional handling or error checking here
+    } catch (error) {
+      console.error(`Error sending answer for Question ${questionIndex + 1}:`, error);
+      // Handle errors as needed
+    }
+  }
+
+  handleText = (e, questionIndex) => {
+    const { textResponses } = this.state;
+    const newTextResponses = [...textResponses];
+  
+    // Update the text response for the current question
+    newTextResponses[questionIndex] = e.target.value;
+  
+    this.setState({ textResponses: newTextResponses });
+  };
+  async inputText() {
+    const { textResponses, scontract, account } = this.state;
+  
+    // Loop through textResponses and process the entered text as needed
+    for (let i = 0; i < textResponses.length; i++) {
+      const textResponse = textResponses[i];
+      console.log(`Question ${i + 1} - Text Response:`, textResponse);
+  
+      if (textResponse) {
+        this.sendTextAnswer(i, textResponse, scontract, account);
+      }
+    }
+  }
+  
+  async sendTextAnswer(questionIndex, textResponse, scontract, account) {
+    try {
+      await scontract.methods.answers(questionIndex, textResponse).send({ from: account });
+      console.log(`Answer for Question ${questionIndex + 1} sent successfully.`);
+      console.log("answer string:"+await scontract.methods.getAnswersForQuestion(questionIndex).call());
+      // You can add any additional handling or error checking here
+    } catch (error) {
+      console.error(`Error sending answer for Question ${questionIndex + 1}:`, error);
+      // Handle errors as needed
+    }
+  }
+
   render() {
     const { questions_array, option_array,type_of_ans } = this.state;
     return (
@@ -202,7 +275,8 @@ class App extends Component {
                   <div style={{ display: 'flex' }}>
                     {option_array[index].map((option, innerIndex) => (
                       <div key={innerIndex} className="form-check" style={{ marginRight: '10px' }}>
-                        <input className="form-check-input" type="radio" value={option} name={`radioGroup_${index}`} id={`flexCheckDefault${index}-${innerIndex}`} onChange={this.handleOptions} />
+                        <input className="form-check-input" type="radio" value={option} name={`radioGroup_${index}`} id={`flexCheckDefault${index}-${innerIndex}`} checked={this.state.selectedRadioOptions[index] === option}
+      onChange={(e) => this.handleRadio(e, index)} />
                         <label className="form-check-label" htmlFor={`flexCheckDefault${index}-${innerIndex}`}>
                           {option}
                         </label>
@@ -212,7 +286,7 @@ class App extends Component {
                 </div>
               ))}
                <div className='container mb-3 flex' style={{ marginUp: '100px' }}>
-            <button  type="button"class="btn btn-success" onClick={() => this.inputAnswers()}>Submit</button>
+            <button  type="button"class="btn btn-success" onClick={() => this.inputRadio()}>Submit</button>
             </div>
             </div>
            
@@ -223,13 +297,16 @@ class App extends Component {
                 <div key={index}>
                   <h5>{index + 1}: {question}</h5>
                   
-                  <input type="text" class="form-control" placeholder="Username"  onChange={this.handleOptions} aria-label="Username" aria-describedby="basic-addon1"/>
+                  <input type="text" class="form-control" placeholder="Your answer"
+      value={this.state.textResponses[index] || ''}
+      onChange={(e) => this.handleText(e, index)}
+      aria-label={`Answer for question ${index + 1}`}/>
                   {/* Render options for the current question */}
                  
                 </div>
               ))}
                <div className='container mb-3 flex' style={{ marginUp: '100px' }}>
-            <button  type="button"class="btn btn-success" onClick={() => this.inputAnswers()}>Submit</button>
+            <button  type="button"class="btn btn-success" onClick={() => this.inputText()}>Submit</button>
             </div>
             </div>
            
