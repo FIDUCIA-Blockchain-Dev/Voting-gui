@@ -3,7 +3,8 @@ import Web3 from 'web3';
 import Register from './voter/register.js';
 import Vote from './voter/vote.js';
 import Reveal from './voter/reveal.js';
-
+import Register_Feedback from './voter/register_feedback.js'
+import Answer_Feedback from './voter/answer_feedback.js'
 class App extends Component {
   constructor(props) {
     super(props);
@@ -41,6 +42,13 @@ class App extends Component {
   async reveal(){
     this.setState({view:'reveal'})
   }
+  async register_feedback()
+  {
+    this.setState({view:'register_feedback'})
+  }
+  async answer_feedback(){
+    this.setState({view:'answer_feedback'})
+  }
 
   render() {
     const {view} = this.state;
@@ -65,6 +73,12 @@ class App extends Component {
       <li class="nav-item">
        <button type="button" class="btn btn-success" onClick={()=>this.reveal()} style={{marginRight:'40px'}}>Reveal Winner</button>
       </li>
+      <li class="nav-item">
+       <button type="button" class="btn btn-success" onClick={()=>this.register_feedback()} style={{marginRight:'40px'}}>Register Feedback</button>
+      </li>
+      <li class="nav-item">
+       <button type="button" class="btn btn-success" onClick={()=>this.answer_feedback()} style={{marginRight:'40px'}}>Answer Feedback</button>
+      </li>
       
       
       
@@ -75,9 +89,11 @@ class App extends Component {
 </nav>
 <h1>Hello, Voter</h1>
       <p>Your account: {this.state.account}</p>
-      {view=='register' && <Register/>}
-      {view=='vote' && <Vote />}
-      {view=='reveal' && <Reveal/>}
+      {view==='register' && <Register/>}
+      {view==='vote' && <Vote />}
+      {view==='reveal' && <Reveal/>}
+      {view==='register_feedback' && <Register_Feedback/>}
+      {view==='answer_feedback' && <Answer_Feedback/>}
     </div>
     );
   }

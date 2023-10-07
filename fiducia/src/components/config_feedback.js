@@ -12,6 +12,31 @@ export const ABI = [
         "type": "uint256"
       }
     ],
+    "name": "AnswersMap",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "question_no",
+        "type": "uint256"
+      },
+      {
+        "internalType": "string",
+        "name": "type_of_answer",
+        "type": "string"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function",
+    "constant": true
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
     "name": "Answers_with_Question",
     "outputs": [
       {
@@ -89,6 +114,26 @@ export const ABI = [
     "constant": true
   },
   {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "name": "keys",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function",
+    "constant": true
+  },
+  {
     "inputs": [],
     "name": "start",
     "outputs": [
@@ -133,6 +178,20 @@ export const ABI = [
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "no_of_q",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function",
+    "constant": true
   },
   {
     "inputs": [
@@ -216,6 +275,66 @@ export const ABI = [
     "constant": true
   },
   {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "q_no",
+        "type": "uint256"
+      }
+    ],
+    "name": "get_Questions",
+    "outputs": [
+      {
+        "internalType": "string",
+        "name": "",
+        "type": "string"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function",
+    "constant": true
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "q_no",
+        "type": "uint256"
+      }
+    ],
+    "name": "get_options",
+    "outputs": [
+      {
+        "internalType": "string[4]",
+        "name": "",
+        "type": "string[4]"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function",
+    "constant": true
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "q_no",
+        "type": "uint256"
+      }
+    ],
+    "name": "get_type",
+    "outputs": [
+      {
+        "internalType": "string",
+        "name": "",
+        "type": "string"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function",
+    "constant": true
+  },
+  {
     "inputs": [],
     "name": "reset",
     "outputs": [],
@@ -223,4 +342,4 @@ export const ABI = [
     "type": "function"
   }
 ]
-export const address = "0x8F044A2EC7Edd39ed0B7c8830A7DE0f71c5f1d4c"
+export const address = "0xE40c902703DD7bA6f616Bde908eA34DbA1b97F10"

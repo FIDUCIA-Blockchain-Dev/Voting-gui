@@ -96,10 +96,12 @@ if(type_of_answers==='text field')
      {
         ans_array.push(answer_array[i][j])
      }
+     console.log("answer array:"+ans_array);
      await scontract.methods.answers_input(i,ans_array,type_of_answers).send({from:this.state.account});
-      //console.log(this.state.answer_array[i][j])
+    console.log("retreving from smart contract:"+await scontract.methods.get_options(i).call());
     
   }
+  
  }
  
   render() {

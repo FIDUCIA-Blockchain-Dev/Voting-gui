@@ -18,7 +18,7 @@ contract feedback {
     }
     struct answers_with_question
     {
-        uint question_no;
+        uint  question_no;
         string[4] answers;
         string type_of_answer;
     }
@@ -34,23 +34,30 @@ contract feedback {
         //require(!start, "already started");
         start = true;
     }
-
+    function no_of_q() public view returns (uint){
+        return Questions.length;
+    }
     function questions_input(string calldata question) public {
         require(start, "Question input is not allowed before starting.");
         require(msg.sender==chairperson,"only chairperson is allowed to input question");
         Questions.push(question);
     }
-    function answers_input(uint q_no,string[4] memory answer,string memory t) public {
-        require(start, "Question input is not allowed before starting.");
-         require(msg.sender==chairperson,"only chairperson is allowed to input options");
-         require(q_no >= 0 && q_no < Questions.length, "Invalid question number");
-         Answers_with_Question.push(answers_with_question({
-            question_no:q_no,
-            answers:answer,
-            type_of_answer:t
-         }));
+   // Define a mapping to store answers for each question
+mapping(uint => answers_with_question) public AnswersMap;
+ uint[] public keys; // This array will store the keys
+function answers_input(uint q_no, string[4] memory answer, string memory t) public {
+    require(start, "Question input is not allowed before starting.");
+    require(msg.sender == chairperson, "only chairperson is allowed to input options");
+    require(q_no >= 0 && q_no < Questions.length, "Invalid question number");
 
-    }
+    // Store answers using the mapping
+    AnswersMap[q_no] = answers_with_question({
+        question_no: q_no,
+        answers: answer,
+        type_of_answer: t
+    });
+     keys.push(q_no); // Add the key to the keys array
+}
     function register() public 
     {     
           address person = msg.sender;
@@ -95,6 +102,20 @@ contract feedback {
 
     return answer;
 }
+function get_Questions(uint q_no) public view returns(string memory) {
+     require(q_no >= 0 && q_no < Questions.length, "Invalid question number");
+    return Questions[q_no];
+}
+
+function get_options(uint q_no) public view returns (string[4] memory){
+    require(q_no >= 0 && q_no < Questions.length, "Invalid question number");
+    
+   return AnswersMap[q_no].answers;
+}
+function get_type(uint q_no) public view returns (string memory){
+    return AnswersMap[q_no].type_of_answer;
+
+}
 
 function reset() public 
 {   require(msg.sender==chairperson,"the user is not chairperson");
@@ -118,7 +139,12 @@ function reset() public
     {
         delete Answers_with_Question[i];
     }
-  
+     // Iterate through the keys and delete the values
+        for (uint i = 0; i < keys.length; i++) {
+            delete AnswersMap[keys[i]];
+        }
+        // Clear the keys array
+        delete keys;
 }
 
 }
