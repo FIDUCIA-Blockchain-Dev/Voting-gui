@@ -52,7 +52,12 @@ class App extends Component {
           await this.type_of_answers();
             await this.options();
             await this.get_answers();
-            await this.determineCountAnswers();
+            if(this.state.type_of_ans!=='text field')
+            {
+              await this.determineCountAnswers();
+            }
+           
+           
             console.log("no of questions:"+this.state.no_of_q);
             console.log("questions:"+JSON.stringify(this.state.questions_array));
           console.log('type of answers:' + this.state.type_of_ans);
@@ -65,7 +70,7 @@ class App extends Component {
       console.error('Error loading blockchain data:', error);
     }
   }
-
+  
   async no_of_questions() {
     const { scontract } = this.state;
     const a = await scontract.methods.no_of_q().call();
@@ -180,7 +185,7 @@ class App extends Component {
 
 
   render() {
-    const { questions_array, option_array,type_of_ans,countAnswerArray} = this.state;
+    const { questions_array, option_array,type_of_ans,countAnswerArray,answersArray} = this.state;
     return (
       <>
         
@@ -241,15 +246,18 @@ class App extends Component {
         )}
         {option_array.length > 0 && type_of_ans === 'text field' && (
               <div className='container'>
-              {questions_array.map((question, index) => (
-                <div key={index}>
-                  <h5>{index + 1}: {question}</h5>
-                  
-                  
-                  {/* Render options for the current question */}
-                 
-                </div>
-              ))}
+             {questions_array.map((question, index) => (
+  <div key={index}>
+    <h5>{index + 1}: {question}</h5>
+    
+    {/* Display the corresponding array from answersArray */}
+    {answersArray[index] && answersArray[index].map((answer, innerIndex) => (
+      <div key={innerIndex}>
+        <p>{answer}</p>
+      </div>
+    ))}
+  </div>
+))}
                
             </div>
            
