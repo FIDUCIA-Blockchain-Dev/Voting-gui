@@ -111,7 +111,7 @@ if(type_of_answers==='text field')
     return (
       <>
 
-   <h4>QUESTIONS INPUT</h4>
+  
    {pressed_form===0 && <>      <form>
       <div class="container mb-3">
                         <label class="form-label">Enter no of questions </label>

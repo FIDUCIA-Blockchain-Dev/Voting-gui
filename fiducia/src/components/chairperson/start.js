@@ -79,8 +79,7 @@ class App extends Component {
     const {error,isstarted} = this.state;
     return (
       <div>
-        <h1>START PAGE</h1>
-        <p>Your account: {this.state.account}</p>
+       
         
 
         

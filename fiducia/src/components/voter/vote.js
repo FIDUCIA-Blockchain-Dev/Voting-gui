@@ -81,8 +81,7 @@ class App extends Component {
     const { selectedName,error } = this.state;
     return (
       <div>
-      <h1>VOTE PAGE</h1>
-      <p>Your account: {this.state.account}</p>
+     
       {/* Display candidate names */}
       <div className='container'>
       {error===1 && <div><div class="alert alert-danger alert-dismissible fade show" role="alert">

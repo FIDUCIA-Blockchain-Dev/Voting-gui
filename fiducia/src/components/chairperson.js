@@ -70,35 +70,43 @@ class App extends Component {
         
         <nav class="navbar navbar-expand-lg bg-body-tertiary">
   <div class="container-fluid">
-    
+  <a class="navbar-brand" href="#">FIDUCIA</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li class="nav-item">
-          <button type="button" class="btn btn-success" onClick={()=>this.set()} style={{marginRight:'40px'}}>Set</button>
+        <a class="nav-link" href="#" onClick={()=>this.set()} style={{marginRight:'40px'}}>Set</a>
+          
         </li>
         <li class="nav-item">
-         <button type="button" class="btn btn-success" onClick={()=>this.start()} style={{marginRight:'40px'}}>Start</button>
+        <a class="nav-link" href="#" onClick={()=>this.start()} style={{marginRight:'40px'}}>Start</a>
+         
         </li>
         <li class="nav-item">
-         <button type="button" class="btn btn-success" onClick={()=>this.reset()} style={{marginRight:'40px'}}>Reset</button>
+        <a class="nav-link" href="#" onClick={()=>this.reset()} style={{marginRight:'40px'}}>Reset</a>
+         
         </li>
         <li class="nav-item">
-         <button type="button" class="btn btn-success" onClick={()=>this.manage_time()} style={{marginRight:'40px'}}>Manage time duration</button>
+        <a class="nav-link" href="#" onClick={()=>this.manage_time()} style={{marginRight:'40px'}}>Manage time duration</a>
+         
         </li>
         <li class="nav-item">
-         <button type="button" class="btn btn-success" onClick={()=>this.start_feedback()} style={{marginRight:'40px'}}>Start Feedback</button>
+        <a class="nav-link" href="#" onClick={()=>this.start_feedback()} style={{marginRight:'40px'}}>Start Feedback</a>
+         
         </li>
         <li class="nav-item">
-         <button type="button" class="btn btn-success" onClick={()=>this.questions_input_feedback()} style={{marginRight:'40px'}}>Questions input Feedback</button>
+        <a class="nav-link" href="#" onClick={()=>this.questions_input_feedback()} style={{marginRight:'40px'}}>Question input Feedback</a>
+         
         </li>
         <li class="nav-item">
-         <button type="button" class="btn btn-success" onClick={()=>this.get_answers_feedback()} style={{marginRight:'40px'}}>Get Answers Feedback</button>
+        <a class="nav-link" href="#" onClick={()=>this.get_answers_feedback()} style={{marginRight:'40px'}}>See Answers</a>
+         
         </li>
         <li class="nav-item">
-         <button type="button" class="btn btn-success" onClick={()=>this.reset_feedback()} style={{marginRight:'40px'}}>Reset Feedback</button>
+        <a class="nav-link" href="#" onClick={()=>this.reset_feedback()} style={{marginRight:'40px'}}>Reset Feedback Form</a>
+        
         </li>
         
         
@@ -108,8 +116,7 @@ class App extends Component {
     </div>
   </div>
 </nav>
-<h1>Hello, Chairperson</h1>
-        <p>Your account: {this.state.account}</p>
+
         {view==='set' && <Set />}
         {view==='start' && <Start/>}
         {view==='reset' && <Reset/>}

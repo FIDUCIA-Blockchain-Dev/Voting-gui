@@ -50,7 +50,7 @@ class App extends Component {
     return (
       <>
 
-   <h4>RESET</h4>
+   
    <div className='container'>
    <button type="button" class="btn btn-success" onClick={()=>this.reset()} style={{marginRight:'40px'}}>Reset</button>
    </div>

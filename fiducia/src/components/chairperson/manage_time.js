@@ -96,7 +96,7 @@ class App extends Component {
     const {error} = this.state;
     return (
       <div>
-        <h3>Manage time page</h3>
+        
         <div className='container'>
         {error===1 && <div><div class="alert alert-danger alert-dismissible fade show" role="alert">
   You have rejected the transaction. Please try again

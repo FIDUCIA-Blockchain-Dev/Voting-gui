@@ -48,7 +48,7 @@ class App extends Component {
 
     return (
       <>
-    <h3>Register feedback</h3>
+   
     <button type="button" class="btn btn-success" onClick={()=>this.register()} style={{marginRight:'40px'}}>Register</button>
     </>
     );

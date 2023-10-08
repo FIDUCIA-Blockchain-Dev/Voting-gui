@@ -189,7 +189,7 @@ class App extends Component {
     return (
       <>
         
-      <h5>GET ANSWERS FEEDBACK</h5>
+      
       {option_array.length > 0 && type_of_ans === 'checkbox' && (
               <div className='container'>
               {questions_array.map((question, index) => (

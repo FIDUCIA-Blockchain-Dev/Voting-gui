@@ -62,8 +62,7 @@ class App extends Component {
     const { account, winners_length, winners ,error} = this.state;
     return (
       <div>
-        <h1>REVEAL WINNER PAGE</h1>
-        <p>Your account: {account}</p>
+      
         {error===1 && <div><div class="alert alert-danger alert-dismissible fade show" role="alert">
   You have rejected the transaction. Please try again
   <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>

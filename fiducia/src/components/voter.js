@@ -58,26 +58,31 @@ class App extends Component {
         
       <nav class="navbar navbar-expand-lg bg-body-tertiary">
 <div class="container-fluid">
-  
+<a class="navbar-brand" href="#">FIDUCIA</a>
   <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
       <li class="nav-item">
-        <button type="button" class="btn btn-success" onClick={()=>this.register()} style={{marginRight:'40px'}}>Register</button>
+      <a class="nav-link" href="#" onClick={()=>this.register()} style={{marginRight:'40px'}}>Register</a>
+        
       </li>
       <li class="nav-item">
-       <button type="button" class="btn btn-success" onClick={()=>this.vote()} style={{marginRight:'40px'}}>Vote</button>
+      <a class="nav-link" href="#" onClick={()=>this.vote()} style={{marginRight:'40px'}}>Vote</a>
+       
       </li>
       <li class="nav-item">
-       <button type="button" class="btn btn-success" onClick={()=>this.reveal()} style={{marginRight:'40px'}}>Reveal Winner</button>
+      <a class="nav-link" href="#" onClick={()=>this.reveal()} style={{marginRight:'40px'}}>See the Winner</a>
+       
       </li>
       <li class="nav-item">
-       <button type="button" class="btn btn-success" onClick={()=>this.register_feedback()} style={{marginRight:'40px'}}>Register Feedback</button>
+      <a class="nav-link" href="#" onClick={()=>this.register_feedback()} style={{marginRight:'40px'}}>Register for feedback</a>
+       
       </li>
       <li class="nav-item">
-       <button type="button" class="btn btn-success" onClick={()=>this.answer_feedback()} style={{marginRight:'40px'}}>Answer Feedback</button>
+      <a class="nav-link" href="#" onClick={()=>this.answer_feedback()} style={{marginRight:'40px'}}>Give Feedback</a>
+       
       </li>
       
       
@@ -87,8 +92,7 @@ class App extends Component {
   </div>
 </div>
 </nav>
-<h1>Hello, Voter</h1>
-      <p>Your account: {this.state.account}</p>
+
       {view==='register' && <Register/>}
       {view==='vote' && <Vote />}
       {view==='reveal' && <Reveal/>}
