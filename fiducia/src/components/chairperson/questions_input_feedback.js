@@ -28,6 +28,7 @@ class App extends Component {
       // Check if Web3 provider is available from Metamask or similar extension
       if (window.ethereum) {
         const web3 = new Web3(window.ethereum);
+        this.setState({web3});
         await window.ethereum.enable(); // Request user permission to connect
         const accounts = await web3.eth.getAccounts();
         this.setState({ account: accounts[0] });
@@ -68,16 +69,30 @@ handleAnswers = (event,index,innerIndex) => {
   this.setState({question_array:Array.from({ length: this.state.no_of_questions }, () => '')})
  }
  async inputQuestions(){
-  this.setState({pressed_form:2})
-  // pressed form 2 tells that input of questions done
-  const {scontract,type_of_answers} = this.state;
-  for(let i=0;i<this.state.no_of_questions;i++)
-  { await scontract.methods.questions_input(this.state.question_array[i]).send({from:this.state.account});
-    //console.log(this.state.question_array[i]);
+  this.setState({ pressed_form: 2 });
+  // pressed form 2 tells that input of questions is done
+  const { scontract, type_of_answers, web3 } = this.state;
+ // const promises = [];
+
+  for (let i = 0; i < this.state.no_of_questions; i++) {
+    //const transaction = scontract.methods.questions_input(this.state.question_array[i]);
+    /*const transactionObject = {
+      from: this.state.account,
+      gas: 200000, // Adjust the gas limit as needed
+    };*/
+
+    // Push each transaction promise to the promises array
+   // promises.push(transaction.send(transactionObject));
+   
   }
-  this.setState({answer_array:Array.from({ length: this.state.no_of_questions }, () =>
-  Array.from({ length: 4 }, () => '')
-)})
+
+  this.setState({
+    answer_array: Array.from({ length: this.state.no_of_questions }, () =>
+      Array.from({ length: 4 }, () => ''),
+    ),
+  });
+
+await scontract.methods.questions_input(this.state.question_array,this.state.no_of_questions).send({from:this.state.account});
 if(type_of_answers==='text field')
 {
   const arr = ['-1','-1','-1','-1']
@@ -90,6 +105,7 @@ if(type_of_answers==='text field')
  }
  async inputAnswers(){
   const {scontract,answer_array,type_of_answers} = this.state;
+  const promises = []
   for(let i=0;i<this.state.no_of_questions;i++)
   { const ans_array = [];
      for(let j=0;j<4;j++)
@@ -97,16 +113,30 @@ if(type_of_answers==='text field')
         ans_array.push(answer_array[i][j])
      }
      console.log("answer array:"+ans_array);
-     await scontract.methods.answers_input(i,ans_array,type_of_answers).send({from:this.state.account});
+     const transaction =  scontract.methods.answers_input(i,ans_array,type_of_answers);
+     const transactionObject = {
+      from: this.state.account,
+      gas: 200000, // Adjust the gas limit as needed
+    };
+
+    // Push each transaction promise to the promises array
+    promises.push(transaction.send(transactionObject));
     console.log("retreving from smart contract:"+await scontract.methods.get_options(i).call());
     
+  }
+  try {
+    // Use Promise.all() to send all transactions asynchronously
+    await Promise.all(promises);
+    console.log('All transactions have been sent.');
+  } catch (error) {
+    console.error('Error sending transactions:', error);
   }
   
  }
  
   render() {
    
-    const options = ['checkbox', 'radiobutton', 'text field'];
+    const options = [ 'radiobutton', 'text field'];
     const {pressed_form,answer_array,type_of_answers} = this.state;
     return (
       <>
@@ -161,7 +191,7 @@ if(type_of_answers==='text field')
         <h3>Question {index + 1}</h3>
         {innerArray.map((value, innerIndex) => (
           <div key={innerIndex} className='container mb-3 flex'>
-            <h3>Answer {innerIndex}</h3>
+            <h5>Option {innerIndex+1}</h5>
             <input
             type="text"
             className="form-control"

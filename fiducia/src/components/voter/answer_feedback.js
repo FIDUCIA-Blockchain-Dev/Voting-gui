@@ -116,7 +116,7 @@ class App extends Component {
   };
   async inputAnswers() {
     const { selectedOptions, scontract, account } = this.state;
-  
+    const promises = []
     // Loop through selectedOptions and process the selected options as needed
     for (let i = 0; i < selectedOptions.length; i++) {
       const selectedQuestionOptions = selectedOptions[i];
@@ -125,17 +125,29 @@ class App extends Component {
       for (let j = 0; j < 4; j++) {
         if (selectedOptions[i][j] !== undefined) {
           console.log(selectedOptions[i][j]);
-          await this.sendAnswer(i, selectedOptions[i][j], scontract, account);
+          await this.sendAnswer(i, selectedOptions[i][j], scontract, account,promises);
         }
       }
       console.log("answer string:"+await scontract.methods.getAnswersForQuestion(i).call());
       // You can perform further actions with the selected options here
     }
+    try {
+      // Use Promise.all() to send all transactions asynchronously
+      await Promise.all(promises);
+      console.log('All transactions have been sent.');
+    } catch (error) {
+      console.error('Error sending transactions:', error);
+    }
   }
   
-  async sendAnswer(questionIndex, selectedOption, scontract, account) {
+  async sendAnswer(questionIndex, selectedOption, scontract, account,promises) {
     try {
-      await scontract.methods.answers(questionIndex, selectedOption).send({ from: account });
+      const transaction =  scontract.methods.answers(questionIndex, selectedOption);
+      const transactionObject = {
+        from: this.state.account,
+        gas: 200000, // Adjust the gas limit as needed
+      };
+      promises.push(transaction.send(transactionObject));
       console.log(`Answer for Question ${questionIndex + 1} sent successfully.`);
       // You can add any additional handling or error checking here
     } catch (error) {

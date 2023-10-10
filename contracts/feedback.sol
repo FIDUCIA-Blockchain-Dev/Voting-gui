@@ -44,10 +44,15 @@ contract feedback {
     function no_of_q() public view returns (uint){
         return Questions.length;
     }
-    function questions_input(string calldata question) public {
+    function questions_input(string[] calldata question,uint no_of_qu) public {
         require(start, "Question input is not allowed before starting.");
         require(msg.sender==chairperson,"only chairperson is allowed to input question");
-        Questions.push(question);
+        require(question.length==no_of_qu,"no of questions should be equal to mentioned");
+        for(uint i=0;i<no_of_qu;i++)
+        {
+            Questions.push(question[i]);
+        }
+        
     }
    // Define a mapping to store answers for each question
 mapping(uint => answers_with_question) public AnswersMap;
@@ -127,6 +132,7 @@ function get_type(uint q_no) public view returns (string memory){
 function reset() public 
 {   require(msg.sender==chairperson,"the user is not chairperson");
     start = false;
+    isReset = true;
     //Questions_And_Answers
     //users
     //Questions

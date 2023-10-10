@@ -223,9 +223,14 @@ export const ABI = [
   {
     "inputs": [
       {
-        "internalType": "string",
+        "internalType": "string[]",
         "name": "question",
-        "type": "string"
+        "type": "string[]"
+      },
+      {
+        "internalType": "uint256",
+        "name": "no_of_qu",
+        "type": "uint256"
       }
     ],
     "name": "questions_input",
@@ -369,4 +374,4 @@ export const ABI = [
     "type": "function"
   }
 ]
-export const address = "0xA25E91a72e435F52493FA6D941A6F16E0d38728C"
+export const address = "0xa2ebd19DB45a7d7c8c019Ba4b6B3E836D75DEa46"

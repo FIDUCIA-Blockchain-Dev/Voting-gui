@@ -40,7 +40,7 @@ class App extends Component {
  async reset() {
   const {scontract,account} = this.state;
   await scontract.methods.reset().send({from:account});
-  await scontract.methods.set_isReset(true).send({from:account});
+ // await scontract.methods.set_isReset(true).send({from:account});
   console.log("no of questions:"+await scontract.methods.no_of_q().call());
  }
  
