@@ -18,11 +18,6 @@ export const ABI = [
         "internalType": "uint256",
         "name": "question_no",
         "type": "uint256"
-      },
-      {
-        "internalType": "string",
-        "name": "type_of_answer",
-        "type": "string"
       }
     ],
     "stateMutability": "view",
@@ -43,11 +38,6 @@ export const ABI = [
         "internalType": "uint256",
         "name": "question_no",
         "type": "uint256"
-      },
-      {
-        "internalType": "string",
-        "name": "type_of_answer",
-        "type": "string"
       }
     ],
     "stateMutability": "view",
@@ -66,7 +56,12 @@ export const ABI = [
     "outputs": [
       {
         "internalType": "string",
-        "name": "",
+        "name": "questions",
+        "type": "string"
+      },
+      {
+        "internalType": "string",
+        "name": "type_of_ans",
         "type": "string"
       }
     ],
@@ -231,6 +226,11 @@ export const ABI = [
         "internalType": "uint256",
         "name": "no_of_qu",
         "type": "uint256"
+      },
+      {
+        "internalType": "string[]",
+        "name": "ty",
+        "type": "string[]"
       }
     ],
     "name": "questions_input",
@@ -249,11 +249,6 @@ export const ABI = [
         "internalType": "string[4]",
         "name": "answer",
         "type": "string[4]"
-      },
-      {
-        "internalType": "string",
-        "name": "t",
-        "type": "string"
       }
     ],
     "name": "answers_input",
@@ -374,4 +369,4 @@ export const ABI = [
     "type": "function"
   }
 ]
-export const address = "0xa2ebd19DB45a7d7c8c019Ba4b6B3E836D75DEa46"
+export const address = "0xC7Fbfd19F7ad6EDf767fAE161fA58D4f016254EE"

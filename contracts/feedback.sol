@@ -2,8 +2,12 @@ pragma solidity ^0.8.17;
 // SPDX-License-Identifier: GPL-3.0
 contract feedback {
     address public chairperson;
-   
-    string[] public Questions;
+    struct questions
+    {
+        string questions;
+        string type_of_ans;
+    }
+    questions[] public Questions;
     struct questions_and_answers
     {
         uint question;
@@ -20,7 +24,7 @@ contract feedback {
     {
         uint  question_no;
         string[4] answers;
-        string type_of_answer;
+        
     }
     answers_with_question[] public Answers_with_Question;
     bool public start = false;
@@ -44,20 +48,23 @@ contract feedback {
     function no_of_q() public view returns (uint){
         return Questions.length;
     }
-    function questions_input(string[] calldata question,uint no_of_qu) public {
+    function questions_input(string[] calldata question,uint no_of_qu,string[] memory ty) public {
         require(start, "Question input is not allowed before starting.");
         require(msg.sender==chairperson,"only chairperson is allowed to input question");
         require(question.length==no_of_qu,"no of questions should be equal to mentioned");
         for(uint i=0;i<no_of_qu;i++)
         {
-            Questions.push(question[i]);
+            Questions.push(questions({
+                questions:question[i],
+                type_of_ans:ty[i]
+            }));
         }
         
     }
    // Define a mapping to store answers for each question
 mapping(uint => answers_with_question) public AnswersMap;
  uint[] public keys; // This array will store the keys
-function answers_input(uint q_no, string[4] memory answer, string memory t) public {
+function answers_input(uint q_no, string[4] memory answer) public {
     require(start, "Question input is not allowed before starting.");
     require(msg.sender == chairperson, "only chairperson is allowed to input options");
     require(q_no >= 0 && q_no < Questions.length, "Invalid question number");
@@ -65,8 +72,8 @@ function answers_input(uint q_no, string[4] memory answer, string memory t) publ
     // Store answers using the mapping
     AnswersMap[q_no] = answers_with_question({
         question_no: q_no,
-        answers: answer,
-        type_of_answer: t
+        answers: answer
+       
     });
      keys.push(q_no); // Add the key to the keys array
 }
@@ -116,7 +123,7 @@ function answers_input(uint q_no, string[4] memory answer, string memory t) publ
 }
 function get_Questions(uint q_no) public view returns(string memory) {
      require(q_no >= 0 && q_no < Questions.length, "Invalid question number");
-    return Questions[q_no];
+    return Questions[q_no].questions;
 }
 
 function get_options(uint q_no) public view returns (string[4] memory){
@@ -125,7 +132,7 @@ function get_options(uint q_no) public view returns (string[4] memory){
    return AnswersMap[q_no].answers;
 }
 function get_type(uint q_no) public view returns (string memory){
-    return AnswersMap[q_no].type_of_answer;
+    return Questions[q_no].type_of_ans;
 
 }
 

@@ -9,7 +9,7 @@ class App extends Component {
     this.state = {
       account: '',
       no_of_questions:0,
-      type_of_answers:'',
+      type_of_answers:[],
       pressed_form:0,
       question_array:[],
       answer_array:[],
@@ -48,9 +48,13 @@ class App extends Component {
     //const {no_of_questions} = this.state;
     this.setState({no_of_questions:event.target.value})
  }
-  handleTypeQuestionsChange = (event) =>{
-    this.setState({type_of_answers:event.target.value})
-    console.log("no of questions"+this.state.no_of_questions)
+  handleTypeQuestionsChange = (event,index) =>{
+    const {type_of_answers} = this.state;
+    let aq = type_of_answers
+    aq[index] = event.target.value
+
+    this.setState({type_of_answers:aq})
+    //console.log("no of questions"+this.state.no_of_questions)
  }
  handleQuestions = (event,index) =>{
   //this.setState({type_of_answers:event.target.value})
@@ -92,15 +96,11 @@ handleAnswers = (event,index,innerIndex) => {
     ),
   });
 
-await scontract.methods.questions_input(this.state.question_array,this.state.no_of_questions).send({from:this.state.account});
-if(type_of_answers==='text field')
+await scontract.methods.questions_input(this.state.question_array,this.state.no_of_questions,this.state.type_of_answers).send({from:this.state.account});
+// console
+for(let i=0;i<this.state.no_of_questions;i++)
 {
-  const arr = ['-1','-1','-1','-1']
-  for(let i=0;i<this.state.no_of_questions;i++)
-  {
-    await scontract.methods.answers_input(i,arr,this.state.type_of_answers).send({from:this.state.account});
-  }
-  
+  console.log("type for q1:"+(await scontract.methods.get_type(i).call()));
 }
  }
  async inputAnswers(){
@@ -113,7 +113,8 @@ if(type_of_answers==='text field')
         ans_array.push(answer_array[i][j])
      }
      console.log("answer array:"+ans_array);
-     const transaction =  scontract.methods.answers_input(i,ans_array,type_of_answers);
+     
+     const transaction =  scontract.methods.answers_input(i,ans_array);
      const transactionObject = {
       from: this.state.account,
       gas: 200000, // Adjust the gas limit as needed
@@ -131,6 +132,8 @@ if(type_of_answers==='text field')
   } catch (error) {
     console.error('Error sending transactions:', error);
   }
+  // console
+  
   
  }
  
@@ -148,18 +151,7 @@ if(type_of_answers==='text field')
                         <input type="text" class="form-control" id="exampleTo"value={this.state.no_of_questions}
             onChange={this.handleNoQuestionsChange} />
                     </div>
-                    <div class="container mb-3">
-                        <label class="form-label">Enter type of answers </label>
-                        <select class="form-select form-select-lg mb-3" aria-label="Large select example" onChange={this.handleTypeQuestionsChange}>
- 
- <option>Please choose one option</option>
- {options.map((option, index) => {
-     return <option key={index} >
-         {option}
-     </option>
- })}
-</select>
-                    </div>
+                    
                     <div className='container mb-3'>
                     <button  type="button"class="btn btn-success" onClick={() => this.inputBasic()}>Submit</button>
                     </div>
@@ -176,7 +168,18 @@ if(type_of_answers==='text field')
               value={name}
               onChange={(e) => this.handleQuestions(e, index)}
             />
-             
+             <div class="container mb-3">
+                        <label class="form-label">Enter type of answers </label>
+                        <select class="form-select form-select-lg mb-3" aria-label="Large select example" onChange={(e) =>this.handleTypeQuestionsChange(e,index)}>
+ 
+ <option>Please choose one option</option>
+ {options.map((option, innerIndex) => {
+     return <option key={innerIndex} >
+         {option}
+     </option>
+ })}
+</select>
+                    </div>
           </div>
         ))}
         <div className='container mb-3 flex'>
@@ -184,22 +187,28 @@ if(type_of_answers==='text field')
         </div>
         
       </>}
-      {pressed_form === 2 && type_of_answers !=='text field' &&  (
+      {pressed_form === 2  &&  (
   <>
     {answer_array.map((innerArray, index) => (
       <div key={index} className='container mb-3 flex'>
         <h3>Question {index + 1}</h3>
-        {innerArray.map((value, innerIndex) => (
-          <div key={innerIndex} className='container mb-3 flex'>
-            <h5>Option {innerIndex+1}</h5>
-            <input
-            type="text"
-            className="form-control"
-              value={value}
-              onChange={(e) => this.handleAnswers(e, index, innerIndex)}
-            />
-          </div>
-        ))}
+        {type_of_answers[index] === 'radiobutton' && (
+  <div>
+    {innerArray.map((value, innerIndex) => (
+      <div key={innerIndex} className="container mb-3 flex">
+        <h5>Option {innerIndex + 1}</h5>
+        <input
+          type="text"
+          className="form-control"
+          value={value}
+          onChange={(e) => this.handleAnswers(e, index, innerIndex)}
+        />
+      </div>
+    ))}
+  </div>
+)}
+   
+
       </div>
     ))}
       <div className='container mb-3 flex'>
