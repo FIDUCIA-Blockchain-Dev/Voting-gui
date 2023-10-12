@@ -123,17 +123,24 @@ class App extends Component {
   };
   async inputAnswers() {
     const { selectedOptions, scontract, account,no_of_q,type_of_ans } = this.state;
-    //const promises = []
+    const promises = []
     for(let i=0;i<no_of_q;i++)
     {
       if(type_of_ans[i]=='text field')
       {
-          this.inputText();
+          this.inputText(promises);
       }
       else if(type_of_ans[i]=='radiobutton')
       {
-          this.inputRadio();
+          this.inputRadio(promises);
       }
+    }
+    try {
+      // Use Promise.all() to send all transactions asynchronously
+      await Promise.all(promises);
+      console.log('All transactions have been sent.');
+    } catch (error) {
+      console.error('Error sending transactions:', error);
     }
     // Loop through selectedOptions and process the selected options as needed
     /*for (let i = 0; i < selectedOptions.length; i++) {
@@ -201,9 +208,9 @@ class App extends Component {
   
     this.setState({ selectedRadioOptions: newSelectedRadioOptions });
   };
-  async inputRadio() {
+  async inputRadio(promises) {
     const { selectedRadioOptions, scontract, account } = this.state;
-    let promises = []
+   // let promises = []
     // Loop through selectedRadioOptions and process the selected options as needed
     for (let i = 0; i < selectedRadioOptions.length; i++) {
       const selectedOption = selectedRadioOptions[i];
@@ -215,13 +222,7 @@ class App extends Component {
       }
       
     }
-    try {
-      // Use Promise.all() to send all transactions asynchronously
-      await Promise.all(promises);
-      console.log('All transactions have been sent.');
-    } catch (error) {
-      console.error('Error sending transactions:', error);
-    }
+   
   }
   
   async sendRadioAnswer(questionIndex, selectedOption, scontract, account,promises) {
@@ -251,9 +252,9 @@ class App extends Component {
   
     this.setState({ textResponses: newTextResponses });
   };
-  async inputText() {
+  async inputText(promises) {
     const { textResponses, scontract, account } = this.state;
-    let promises = []
+   // let promises = []
     // Loop through textResponses and process the entered text as needed
     for (let i = 0; i < textResponses.length; i++) {
       const textResponse = textResponses[i];
@@ -263,13 +264,7 @@ class App extends Component {
         this.sendTextAnswer(i, textResponse, scontract, account,promises);
       }
     }
-    try {
-      // Use Promise.all() to send all transactions asynchronously
-      await Promise.all(promises);
-      console.log('All transactions have been sent.');
-    } catch (error) {
-      console.error('Error sending transactions:', error);
-    }
+    
   }
   
   async sendTextAnswer(questionIndex, textResponse, scontract, account,promises) {
