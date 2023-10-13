@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Web3 from 'web3';
 import {ABI,address} from '../config_feedback.js';
-
+import ChairFeedbackNav from './chairperson_FeedbackNavbar'
 class App extends Component {
   constructor(props) {
     super(props);
@@ -78,23 +78,24 @@ class App extends Component {
   render() {
     const {error,isstarted} = this.state;
     return (
+      <ChairFeedbackNav>
       <div>
         
         
 
         
         <div className='container'>
-        {error===1 && <div><div class="alert alert-danger alert-dismissible fade show" role="alert">
-  You have rejected the transaction. Please try again
-  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-</div></div>}
+       
 
-
-  <div> <button type="button" class="btn btn-success" onClick={()=>this.start()} style={{marginRight:'40px'}}>Start</button></div>
+        <br/>
+        <div class="d-grid gap-2 col-3 mx-5 "> 
+  <button type="button" class="btn border-black border-2 rounded-pill btn-lg btn-outline-dark" onClick={()=>this.start()} >Start</button></div>
+   </div>
        
         
         </div>
-      </div>
+      
+      </ChairFeedbackNav>
     );
   }
 }

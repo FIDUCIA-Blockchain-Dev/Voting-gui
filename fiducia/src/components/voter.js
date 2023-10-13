@@ -1,10 +1,14 @@
 import React, { Component } from 'react';
 import Web3 from 'web3';
+import VoterHome from './voter/voter_home.js'
 import Register from './voter/register.js';
 import Vote from './voter/vote.js';
 import Reveal from './voter/reveal.js';
 import Register_Feedback from './voter/register_feedback.js'
 import Answer_Feedback from './voter/answer_feedback.js'
+import VotingHome from './voter/voter_voting_home.js'
+import FeedbackHome from './voter/voter_feedback_home.js'
+import {BrowserRouter as Br,Route,Routes} from 'react-router-dom';
 class App extends Component {
   constructor(props) {
     super(props);
@@ -33,72 +37,27 @@ class App extends Component {
       console.error('Error loading blockchain data:', error);
     }
   }
-  async register(){
-    this.setState({view:'register'})
-  }
-  async vote(){
-    this.setState({view:'vote'})
-  }
-  async reveal(){
-    this.setState({view:'reveal'})
-  }
-  async register_feedback()
-  {
-    this.setState({view:'register_feedback'})
-  }
-  async answer_feedback(){
-    this.setState({view:'answer_feedback'})
-  }
+
 
   render() {
-    const {view} = this.state;
+    
    
     return (
-      <div>
-        
-      <nav class="navbar navbar-expand-lg bg-body-tertiary">
-<div class="container-fluid">
-<a class="navbar-brand" href="#">FIDUCIA</a>
-  <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
-  <div class="collapse navbar-collapse" id="navbarSupportedContent">
-    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-      <li class="nav-item">
-      <a class="nav-link" href="#" onClick={()=>this.register()} style={{marginRight:'40px'}}>Register</a>
-        
-      </li>
-      <li class="nav-item">
-      <a class="nav-link" href="#" onClick={()=>this.vote()} style={{marginRight:'40px'}}>Vote</a>
-       
-      </li>
-      <li class="nav-item">
-      <a class="nav-link" href="#" onClick={()=>this.reveal()} style={{marginRight:'40px'}}>See the Winner</a>
-       
-      </li>
-      <li class="nav-item">
-      <a class="nav-link" href="#" onClick={()=>this.register_feedback()} style={{marginRight:'40px'}}>Register for feedback</a>
-       
-      </li>
-      <li class="nav-item">
-      <a class="nav-link" href="#" onClick={()=>this.answer_feedback()} style={{marginRight:'40px'}}>Give Feedback</a>
-       
-      </li>
-      
-      
-      
-    </ul>
-    
-  </div>
-</div>
-</nav>
-
-      {view==='register' && <Register/>}
-      {view==='vote' && <Vote />}
-      {view==='reveal' && <Reveal/>}
-      {view==='register_feedback' && <Register_Feedback/>}
-      {view==='answer_feedback' && <Answer_Feedback/>}
-    </div>
+     <>
+     <Br>
+     <Routes>
+     <Route  exact path='/' element={<VoterHome/>}  />
+     <Route  exact path='/VoterRegister' element={<Register/>}  />
+     <Route  exact path='/VoterVote' element={<Vote/>}  />
+     <Route  exact path='/VoterWinner' element={<Reveal/>}  />
+     <Route  exact path='/VoterFeedbackRegister' element={<Register_Feedback/>}  />
+     <Route  exact path='/VoterGiveFeedback' element={<Answer_Feedback/>}  />
+     <Route  exact path='/VoterHome' element={<VotingHome/>}  />
+     <Route  exact path='/VoterFeedbackHome' element={<FeedbackHome/>}  />
+     </Routes>
+     </Br>
+     
+     </>
     );
   }
 }

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Web3 from 'web3';
 import { ABI, address } from '../config';
 import Candidates_input from './candidates_input.js';
+import ChairVotingNavbar from './chairperson_VotingNavbar'
 class App extends Component {
   constructor(props) {
     super(props);
@@ -68,7 +69,7 @@ class App extends Component {
     if(submit_pressed===0)
     {
       return (
-     
+        <ChairVotingNavbar>
         <div>
           
 
@@ -78,26 +79,28 @@ class App extends Component {
   <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
 </div></div>}
             <form>
-              <div class="container mb-3 flex">
+              <div class="mb-3 flex m-5 col-5">
                 <label class="form-label">Number of Candidates</label>
-                <input type="text" class="form-control" id="exampleTo" value={this.state.no_of_voters}
+                <input type="text" class="form-control border-black border-2 rounded-pill form-control-lg" id="exampleTo" value={this.state.no_of_voters}
                   onChange={this.handle_no_of_voters_Change} />
               </div>
            
-              <button type="button" class="btn btn-success" onClick={() => this.set()}>Submit</button>
+              <button type="button" class="btn border-black border-2 rounded-pill btn-lg btn-outline-dark m-5" onClick={() => this.set()}>Submit</button>
             </form>
           </div>
           
         </div>
+        </ChairVotingNavbar>
       );
     }
     else
     {
       return (
-     
+        <ChairVotingNavbar>
         <>
         <Candidates_input  noOfVoters={this.state.no_of_voters} />
         </>
+         </ChairVotingNavbar>
       );
     }
 

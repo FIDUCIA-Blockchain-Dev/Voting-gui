@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Web3 from 'web3';
-
+import ChairFeedbackNav from './chairperson_FeedbackNavbar'
 import {ABI,address} from '../config_feedback.js';
 
 class App extends Component {
@@ -48,14 +48,16 @@ class App extends Component {
     
     
     return (
+      <ChairFeedbackNav>
       <>
 
    
-   <div className='container'>
-   <button type="button" class="btn btn-success" onClick={()=>this.reset()} style={{marginRight:'40px'}}>Reset</button>
-   </div>
+   <br/>
+   <div class="d-grid gap-2 col-3 mx-5 ">
+        <button class="btn border-black border-2 rounded-pill btn-lg btn-outline-dark" onClick={()=>this.reset()} type="button">Reset</button> </div>
   
     </>
+    </ChairFeedbackNav>
     );
   }
 }

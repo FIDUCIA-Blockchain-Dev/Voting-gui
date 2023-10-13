@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Web3 from 'web3';
 import {ABI,address} from '../config';
-
+import ChairVotingNavbar from './chairperson_VotingNavbar'
 class App extends Component {
   constructor(props) {
     super(props);
@@ -78,8 +78,9 @@ class App extends Component {
   render() {
     const {error,isstarted} = this.state;
     return (
+      <ChairVotingNavbar>
       <div>
-       
+     
         
 
         
@@ -93,11 +94,16 @@ class App extends Component {
   You have started the voting system.
   <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
 </div></div>}
-{isstarted===false && <div> <button type="button" class="btn btn-success" onClick={()=>this.start()} style={{marginRight:'40px'}}>Start</button></div>}
+{isstarted===false && <div>
+  <br/>
+  <div class="d-grid gap-2 col-3 mx-5 "> 
+  <button type="button" class="btn border-black border-2 rounded-pill btn-lg btn-outline-dark" onClick={()=>this.start()} >Start</button></div>
+   </div>}
        
         
         </div>
       </div>
+      </ChairVotingNavbar>
     );
   }
 }

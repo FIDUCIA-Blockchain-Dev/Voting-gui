@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Web3 from 'web3';
 import { ABI, address } from '../config';
-
+import ChairVotingNavbar from './chairperson_VotingNavbar'
 class App extends Component {
   constructor(props) {
     super(props);
@@ -49,6 +49,7 @@ class App extends Component {
   render() {
     const {error,ispressed} = this.state;
     return (
+      <ChairVotingNavbar>
       <div>
       
         <div className='container'>
@@ -60,10 +61,14 @@ class App extends Component {
   You have reset the voting system
   <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
 </div></div>}
-        <button type="button" class="btn btn-success" onClick={()=>this.reset()} style={{marginRight:'40px'}}>Reset</button>
         
+        <div class="d-grid gap-2 col-3 mx-5 "> 
+        <br/>
+  <button type="button" class="btn border-black border-2 rounded-pill btn-lg btn-outline-dark" onClick={()=>this.reset()} >Reset</button></div>
+   
         </div>
       </div>
+      </ChairVotingNavbar>
     );
   }
 }

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Web3 from 'web3';
-
+import ChairFeedbackNav from './chairperson_FeedbackNavbar'
 import { ABI, address } from '../config_feedback.js';
 
 
@@ -11,7 +11,7 @@ class App extends Component {
       account: '',
       no_of_q: 0,
       questions_array: [],
-      type_of_ans: '',
+      type_of_ans: [],
       option_array: [],
       isReset:false,
       selectedOptions: [],
@@ -52,16 +52,15 @@ class App extends Component {
           await this.type_of_answers();
             await this.options();
             await this.get_answers();
-            if(this.state.type_of_ans!=='text field')
-            {
-              await this.determineCountAnswers();
-            }
+             
+            /**/
            
            
             console.log("no of questions:"+this.state.no_of_q);
             console.log("questions:"+JSON.stringify(this.state.questions_array));
           console.log('type of answers:' + this.state.type_of_ans);
           console.log('option array:' + JSON.stringify(this.state.option_array));
+          console.log('count answer array:' + JSON.stringify(this.state.countAnswerArray));
         });
       } else {
         console.log('Please install MetaMask or use a compatible browser extension.');
@@ -89,46 +88,72 @@ class App extends Component {
   }
 
   async type_of_answers() {
-    const { scontract } = this.state;
-    const result = await scontract.methods.get_type(0).call();
-    this.setState({ type_of_ans: result.toString() });
+    const { scontract ,no_of_q} = this.state;
+    let v = []
+    for(let i=0;i<no_of_q;i++)
+    {
+      const result = await scontract.methods.get_type(i).call();
+      v.push(result);
+    }
+    
+    this.setState({ type_of_ans: v });
   }
 
   async options() {
-    // Your options function code here
-    const {scontract} = this.state;
+    const { scontract } = this.state;
     let d = Array.from({ length: Number(this.state.no_of_q) }, () =>
-    Array.from({ length: 4 }, () => '')
-  )
-    for(let i=0;i<Number(this.state.no_of_q);i++)
-    { let c = []
+      Array.from({ length: 4 }, () => '')
+    );
+  
+    for (let i = 0; i < Number(this.state.no_of_q); i++) {
+      let c = [];
       c = await scontract.methods.get_options(i).call();
-      
-      for(let j=0;j<4;j++)
-      {
-        d[i][j] = c[j];
+  
+      for (let j = 0; j < 4; j++) {
+        if (c[j] !== "") {
+          d[i][j] = c[j];
+        }
       }
     }
-    this.setState({option_array:d})
-  }
-  // Inside your App component class
-  async determineCountAnswers() {
-    const { option_array, no_of_q, answersArray } = this.state;
-    let q = [];
   
+    this.setState({ option_array: d }, () => {
+      console.log("option_array updated:", this.state.option_array);
+    });
+  }
+ 
+  
+  
+  
+  
+  
+  
+  // Inside your App component class
+  async determineCountAnswers(Arr) {
+    const { option_array, no_of_q ,answersArray} = this.state;
+    let q = [];
+    console.log("answers Array1:"+answersArray)
+    let a = Arr
+    console.log("Captured answers Array in 'a':", a);
+    //console.log("Ans array:"+this.state.answersArray)
     for (let i = 0; i < no_of_q; i++) {
-      let row = []; // Initialize a row for the 2D array
-      for (let j = 0; j < 4; j++) {
-        let ele = option_array[i][j];
-        const count = answersArray.flat().filter((element) => element === ele).length;
-        console.log(`count of ${ele}: ${count}`);
-        row.push(count); // Add the count to the current row
-      }
-      q.push(row); // Add the row to the 2D array
+      let row = [];
+      console.log(option_array[i])
+      if (option_array[i] !== undefined && Array.isArray(option_array[i])) {
+        for (let j = 0; j < 4; j++) {
+          if (option_array[i][j] !== undefined && option_array[i][j] !== "") {
+            let ele = option_array[i][j];
+            console.log("ele:" + ele)
+            console.log("answers Array2:"+a)
+            const count = a.flat().filter((element) => element === ele).length;
+            console.log(`count of ${ele}: ${count}`);
+            row.push(count);
+          }
+        
+      }}
+      q.push(row);
     }
   
     this.setState({ countAnswerArray: q });
-    console.log(q);
   }
   
   
@@ -142,9 +167,9 @@ class App extends Component {
 
 
   async get_answers() {
-    const { scontract, no_of_q } = this.state;
+    const { scontract, no_of_q ,option_array} = this.state;
     let arr = [];
-  
+    console.log("option array:"+option_array)
     for (let i = 0; i < no_of_q; i++) {
       let a = await scontract.methods.getAnswersForQuestion(i).call();
       console.log("answers for question " + (i + 1) + ": " + a);
@@ -153,15 +178,20 @@ class App extends Component {
       for (let j = 0; j < a.length; j++) {
         if (a[j] !== undefined) {
           questionAnswers.push(a[j]);
-          console.log("answer " + j + " for question " + i + ": " + a[j]);
+         // console.log("answer " + j + " for question " + i + ": " + a[j]);
         }
       }
       
       arr.push(questionAnswers);
     }
   
-    this.setState({ answersArray: arr });
-    console.log(arr);
+  
+    this.setState({ answersArray: arr }, () => {
+      // You should access answersArray here
+      console.log("answersArray: ", this.state.answersArray);
+    });
+    await this.determineCountAnswers(arr);
+   // console.log(q);
   }
 
 
@@ -187,44 +217,19 @@ class App extends Component {
   render() {
     const { questions_array, option_array,type_of_ans,countAnswerArray,answersArray} = this.state;
     return (
+      <ChairFeedbackNav>
       <>
         
       
-      {option_array.length > 0 && type_of_ans === 'checkbox' && (
-              <div className='container'>
-              {questions_array.map((question, index) => (
-                <div key={index}>
-                  <h5>{index + 1}: {question}</h5>
       
-                  {/* Render options for the current question */}
-                  <div >
-                    {option_array[index].map((option, innerIndex) => (
-                      <div key={innerIndex} className="container" >
-                       
-                        <p>{option}</p>
-                        {countAnswerArray[index] && countAnswerArray[index][innerIndex] !== undefined ? (
-                <p>Count: {countAnswerArray[index][innerIndex]}</p>
-              ) : (
-                <p>Count: N/A</p> // Handle the case when the count is undefined
-              )}
-                        
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              ))}
-              
-            </div>
-           
-        )}
-        {option_array.length > 0 && type_of_ans === 'radiobutton' && (
+        {option_array.length > 0  && (
               <div className='container'>
                {questions_array.map((question, index) => (
                 <div key={index}>
                   <h5>{index + 1}: {question}</h5>
       
                   {/* Render options for the current question */}
-                  <div >
+                 {type_of_ans[index]==='radiobutton' &&  (<div >
                     {option_array[index].map((option, innerIndex) => (
                       <div key={innerIndex} className="container" >
                        
@@ -237,33 +242,26 @@ class App extends Component {
                         
                       </div>
                     ))}
-                  </div>
+                  </div>)}
+                  {type_of_ans[index]==='text field' &&  (
+                    <>
+                     {answersArray[index] && answersArray[index].map((answer, innerIndex) => (
+      <div key={innerIndex}>
+        <p>{answer}</p>
+      </div>
+    ))}
+                    </>
+                  )}
                 </div>
               ))}
                
             </div>
            
         )}
-        {option_array.length > 0 && type_of_ans === 'text field' && (
-              <div className='container'>
-             {questions_array.map((question, index) => (
-  <div key={index}>
-    <h5>{index + 1}: {question}</h5>
-    
-    {/* Display the corresponding array from answersArray */}
-    {answersArray[index] && answersArray[index].map((answer, innerIndex) => (
-      <div key={innerIndex}>
-        <p>{answer}</p>
-      </div>
-    ))}
-  </div>
-))}
-               
-            </div>
-           
-        )}
+        
         
       </>
+      </ChairFeedbackNav>
     );
   }
   

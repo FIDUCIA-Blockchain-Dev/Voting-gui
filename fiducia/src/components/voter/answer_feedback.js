@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Web3 from 'web3';
-
+import VoterFeedbackNavbar from './voter_feedback_navbar'
 import { ABI, address } from '../config_feedback.js';
 
 
@@ -235,6 +235,7 @@ class App extends Component {
       //await scontract.methods.answers(questionIndex, selectedOption).send({ from: account });
       console.log(`Answer for Question ${questionIndex + 1} sent successfully.`);
       promises.push(transaction.send(transactionObject));
+      console.log(`answer string for ${questionIndex+1}:`+await scontract.methods.getAnswersForQuestion(questionIndex).call());
       // You can add any additional handling or error checking here
     } catch (error) {
       console.error(`Error sending answer for Question ${questionIndex + 1}:`, error);
@@ -277,7 +278,7 @@ class App extends Component {
      };
      promises.push(transaction.send(transactionObject));
       console.log(`Answer for Question ${questionIndex + 1} sent successfully.`);
-      console.log("answer string:"+await scontract.methods.getAnswersForQuestion(questionIndex).call());
+      console.log(`answer string for ${questionIndex+1}:`+await scontract.methods.getAnswersForQuestion(questionIndex).call());
       // You can add any additional handling or error checking here
     } catch (error) {
       console.error(`Error sending answer for Question ${questionIndex + 1}:`, error);
@@ -289,13 +290,15 @@ class App extends Component {
   render() {
     const { questions_array, option_array,type_of_ans } = this.state;
     return (
+      <VoterFeedbackNavbar>
       <>
         
-  
+        <br/>
         {option_array.length > 0  && (
               <div className='container'>
               {questions_array.map((question, index) => (
                 <div key={index}>
+                  <br/>
                   <h5>{index + 1}: {question}</h5>
       
                   {/* Render options for the current question */}
@@ -314,7 +317,7 @@ class App extends Component {
                     {
                         <input
           type="text"
-          className="form-control"
+          className="form-control border-black border-2 rounded-pill form-control-lg"
           placeholder="Your answer"
           value={this.state.textResponses[index] || ''}
           onChange={(e) => this.handleText(e, index)}
@@ -325,7 +328,7 @@ class App extends Component {
                 </div>
               ))}
                <div className='container mb-3 flex' style={{ marginUp: '100px' }}>
-            <button  type="button"class="btn btn-success" onClick={() => this.inputAnswers()}>Submit</button>
+            <button  type="button"class="btn border-black border-2 rounded-pill btn-lg btn-outline-dark m-5" onClick={() => this.inputAnswers()}>Submit</button>
             </div>
             </div>
            
@@ -333,6 +336,7 @@ class App extends Component {
         
         
       </>
+      </VoterFeedbackNavbar>
     );
   }
   

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Web3 from 'web3';
-
+import ChairFeedbackNav from './chairperson_FeedbackNavbar'
 import {ABI,address} from '../config_feedback.js';
 
 class App extends Component {
@@ -142,34 +142,36 @@ for(let i=0;i<this.state.no_of_questions;i++)
     const options = [ 'radiobutton', 'text field'];
     const {pressed_form,answer_array,type_of_answers} = this.state;
     return (
+      <ChairFeedbackNav>
       <>
 
-  
+
    {pressed_form===0 && <>      <form>
-      <div class="container mb-3">
+      <div class="mb-3 flex m-5 col-5">
                         <label class="form-label">Enter no of questions </label>
-                        <input type="text" class="form-control" id="exampleTo"value={this.state.no_of_questions}
+                        <input type="text" class="form-control border-black border-2 rounded-pill form-control-lg" id="exampleTo"value={this.state.no_of_questions}
             onChange={this.handleNoQuestionsChange} />
                     </div>
                     
-                    <div className='container mb-3'>
-                    <button  type="button"class="btn btn-success" onClick={() => this.inputBasic()}>Submit</button>
-                    </div>
+                    
+                    <button  type="button"class="btn border-black border-2 rounded-pill btn-lg btn-outline-dark m-5" onClick={() => this.inputBasic()}>Submit</button>
+                    
                     
       </form></>}
       {pressed_form===1 && <>
-      
+        <div class="mb-3 flex m-5 col-5">
         {this.state.question_array.map((name, index) => (
           <div key={index} className="container mb-3 flex">
             <h3>Question {index + 1}</h3>
             <input
               type="text"
-              className="form-control"
+              className="form-control border-black border-2 rounded-pill form-control-lg"
               value={name}
               onChange={(e) => this.handleQuestions(e, index)}
             />
              <div class="container mb-3">
-                        <label class="form-label">Enter type of answers </label>
+              <br/>
+                        <label class="form-label"><h6>Enter type of answers </h6></label>
                         <select class="form-select form-select-lg mb-3" aria-label="Large select example" onChange={(e) =>this.handleTypeQuestionsChange(e,index)}>
  
  <option>Please choose one option</option>
@@ -182,24 +184,26 @@ for(let i=0;i<this.state.no_of_questions;i++)
                     </div>
           </div>
         ))}
-        <div className='container mb-3 flex'>
-        <button  type="button"class="btn btn-success" onClick={() => this.inputQuestions()}>Submit</button>
-        </div>
         
-      </>}
+        <button  type="button"class="btn border-black border-2 rounded-pill btn-lg btn-outline-dark m-5" onClick={() => this.inputQuestions()}>Submit</button>
+        
+        
+      </div></>}
       {pressed_form === 2  &&  (
-  <>
+  <div class="d-grid gap-2 col-3 mx-5 "> 
     {answer_array.map((innerArray, index) => (
       <div key={index} className='container mb-3 flex'>
-        <h3>Question {index + 1}</h3>
+        
         {type_of_answers[index] === 'radiobutton' && (
+          
   <div>
+    <h3>Question {index + 1}:{this.state.question_array[index]}</h3>
     {innerArray.map((value, innerIndex) => (
       <div key={innerIndex} className="container mb-3 flex">
         <h5>Option {innerIndex + 1}</h5>
         <input
           type="text"
-          className="form-control"
+          className="form-control border-black border-2 rounded-pill form-control-lg"
           value={value}
           onChange={(e) => this.handleAnswers(e, index, innerIndex)}
         />
@@ -211,12 +215,13 @@ for(let i=0;i<this.state.no_of_questions;i++)
 
       </div>
     ))}
-      <div className='container mb-3 flex'>
-        <button  type="button"class="btn btn-success" onClick={() => this.inputAnswers()}>Submit</button>
+      
+        <button  type="button"class="btn border-black border-2 rounded-pill btn-lg btn-outline-dark" onClick={() => this.inputAnswers()}>Submit</button>
+        
         </div>
-  </>
 )}
     </>
+    </ChairFeedbackNav>
     );
   }
 }

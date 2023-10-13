@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Web3 from 'web3';
 import {ABI,address} from '../config';
-
+import VoterVotingNavbar from './voter_voting_navbar'
 class App extends Component {
   constructor(props) {
     super(props);
@@ -50,6 +50,7 @@ class App extends Component {
   render() {
     const {error} = this.state;
     return (
+      <VoterVotingNavbar>
       <div>
        
         <div className='container'>
@@ -57,10 +58,13 @@ class App extends Component {
   You have rejected the transaction. Please try again
   <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
 </div></div>}
-        <button type="button" class="btn btn-success" onClick={()=>this.register()} style={{marginRight:'40px'}}>Register</button>
-        
+<br/>
+<div class="d-grid gap-2 col-3 mx-5 ">
+        <button type="button" class="btn border-black border-2 rounded-pill btn-lg btn-outline-dark" onClick={()=>this.register()}>Register</button>
+        </div>
         </div>
       </div>
+      </VoterVotingNavbar>
     );
   }
 }

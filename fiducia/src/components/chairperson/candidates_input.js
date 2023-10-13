@@ -66,20 +66,23 @@ class App extends Component {
   You have rejected the transaction. Please try again
   <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
 </div></div>}
-{candidate_entered===0 && <> <h2>Enter the candidate details</h2>
+
+{candidate_entered===0 && <><br/><div class=" mb-3 flex m-5 col-5"> <h4>Enter the candidates names</h4>
+
         {this.state.voterNames.map((name, index) => (
           <div key={index} className="container mb-3 flex">
-            <h3>Candidate {index + 1}</h3>
+            <h6>Candidate {index + 1}</h6>
             <input
               type="text"
-              className="form-control"
+              className="form-control border-black border-2 rounded-pill form-control-lg"
               value={name}
               onChange={(e) => this.handleVoterNameChange(e, index)}
             />
              
           </div>
         ))}
-        <button type="button" class="btn btn-success" onClick={()=>this.submitVoterNames()} >Submit</button></>}
+        <button type="button" class="btn border-black border-2 rounded-pill btn-lg btn-outline-dark m-5" onClick={()=>this.submitVoterNames()} >Submit</button></div></>
+        }
         {candidate_entered===1 && <div><div class="alert alert-success alert-dismissible fade show" role="alert">
   You have entered candidate details thank you.
   <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Web3 from 'web3';
 import { ABI, address } from '../config';
-
+import VoterVotingNavbar from './voter_voting_navbar'
 class App extends Component {
   constructor(props) {
     super(props);
@@ -61,18 +61,22 @@ class App extends Component {
   render() {
     const { account, winners_length, winners ,error} = this.state;
     return (
+      <VoterVotingNavbar>
       <div>
       
         {error===1 && <div><div class="alert alert-danger alert-dismissible fade show" role="alert">
   You have rejected the transaction. Please try again
   <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
 </div></div>}
+<div class="d-grid gap-2 col-3 mx-5 ">
+  <br/>
         <ul>
           {winners.map((winner, index) => (
             <li key={index}>{winner}</li>
           ))}
-        </ul>
+        </ul></div>
       </div>
+      </VoterVotingNavbar>
     );
   }
 }

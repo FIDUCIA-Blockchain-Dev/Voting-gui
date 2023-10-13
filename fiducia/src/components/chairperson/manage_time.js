@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Web3 from 'web3';
 import { ABI, address } from '../config';
-
+import ChairVotingNavbar from './chairperson_VotingNavbar'
 class App extends Component {
   constructor(props) {
     super(props);
@@ -95,6 +95,7 @@ class App extends Component {
   render() {
     const {error} = this.state;
     return (
+      <ChairVotingNavbar>
       <div>
         
         <div className='container'>
@@ -102,22 +103,24 @@ class App extends Component {
   You have rejected the transaction. Please try again
   <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
 </div></div>}
+<br/>
+<div class="d-grid gap-2 col-3 mx-5 ">
+                <button type="button" class="btn border-black border-2 rounded-pill btn-lg btn-outline-dark" onClick={()=>this.start_register() } style={{marginRight:'40px'}}>Start Registration process</button>
+                <br/>
                 
-                <button type="button" class="btn btn-success" onClick={()=>this.start_register() } style={{marginRight:'40px'}}>Start Registration process</button>
-                
-                
-                <button type="button" class="btn btn-success" onClick={()=>this.stop_register()} style={{marginRight:'40px'}} >Stop Registration process</button>
+                <button type="button" class="btn border-black border-2 rounded-pill btn-lg btn-outline-dark" onClick={()=>this.stop_register()} style={{marginRight:'40px'}} >Stop Registration process</button>
+                <br/>
                
-               
-                <button type="button" class="btn btn-success" onClick={()=>this.start_voting()} style={{marginRight:'40px'}} >Start Voting process</button>
-                
-                <button type="button" class="btn btn-success" onClick={()=>this.stop_voting()} style={{marginRight:'40px'}}>Stop Voting process</button>
-                
-                <button type="button" class="btn btn-success" onClick={()=>this.start_reveal()} style={{marginRight:'40px'}}>Start Revealing the winners</button>
-                
+                <button type="button" class="btn border-black border-2 rounded-pill btn-lg btn-outline-dark" onClick={()=>this.start_voting()} style={{marginRight:'40px'}} >Start Voting process</button>
+                <br/>
+                <button type="button" class="btn border-black border-2 rounded-pill btn-lg btn-outline-dark" onClick={()=>this.stop_voting()} style={{marginRight:'40px'}}>Stop Voting process</button>
+                <br/>
+                <button type="button" class="btn border-black border-2 rounded-pill btn-lg btn-outline-dark" onClick={()=>this.start_reveal()} style={{marginRight:'40px'}}>Start Revealing the winners</button>
+                </div>
             
         </div>
       </div>
+      </ChairVotingNavbar>
     );
   }
 }

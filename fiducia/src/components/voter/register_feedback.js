@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Web3 from 'web3';
-
+import VoterFeedbackNavbar from './voter_feedback_navbar'
 import {ABI,address} from '../config_feedback.js';
 
 class App extends Component {
@@ -47,10 +47,13 @@ class App extends Component {
    
 
     return (
+      <VoterFeedbackNavbar>
       <>
-   
-    <button type="button" class="btn btn-success" onClick={()=>this.register()} style={{marginRight:'40px'}}>Register</button>
+      <br/>
+      <div class="d-grid gap-2 col-3 mx-5 "> <button type="button" class="btn border-black border-2 rounded-pill btn-lg btn-outline-dark" onClick={()=>this.register()} >Register</button></div>
+    
     </>
+    </VoterFeedbackNavbar>
     );
   }
 }

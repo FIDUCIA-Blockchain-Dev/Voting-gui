@@ -1,19 +1,24 @@
 import React, { Component } from 'react';
 import Web3 from 'web3';
-import Reset from './chairperson/reset.js';
-import Set from './chairperson/set.js';
-import Start from './chairperson/start.js';
-import Manage_time from './chairperson/manage_time.js';
-import Start_Feedback from './chairperson/start_feedback.js';
-import Questions_Feedback from './chairperson/questions_input_feedback.js';
-import Reset_Feedback from './chairperson/reset_feedback.js';
-import Get_Answers from './chairperson/getAnswers_feedback.js';
+
+import ChairHome from './chairperson/chairperson_home.js'
+import ChairVotingHome from './chairperson/chairperson_voting_home.js'
+import ChairFeedbackHome from './chairperson/chairpeson_feedback_home.js'
+import {BrowserRouter as Br,Route,Routes} from 'react-router-dom';
+import Start from './chairperson/start.js'
+import Reset from './chairperson/reset.js'
+import Set from './chairperson/set.js'
+import Manage from './chairperson/manage_time.js'
+import StartFeedback from './chairperson/start_feedback.js'
+import ResetFeedback from './chairperson/reset_feedback.js'
+import AnswersFeedback from './chairperson/getAnswers_feedback.js'
+import InputFeedback from './chairperson/questions_input_feedback.js'
 class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
       account: '',
-      view:''
+      view:'home'
     };
   }
 
@@ -36,88 +41,47 @@ class App extends Component {
       console.error('Error loading blockchain data:', error);
     }
   }
-  async set() {
-    this.setState({view:'set'})
-
-  }
-  async start() {
-    this.setState({view:'start'})
-  }
-  async reset() {
-    this.setState({view:'reset'})
-  }
-  async manage_time() {
-    this.setState({view:'manage time'})
-  }
-  async start_feedback(){
-    this.setState({view:'feedback'})
-  }
-  async questions_input_feedback(){
-    this.setState({view:'questions_input'})
-  }
-  async get_answers_feedback(){
-    this.setState({view:'get_answers'})
-  }
-  async reset_feedback(){
-    this.setState({view:'reset_feedback'})
-  }
 
   render() {
-    const {view} = this.state;
- 
-    return (
-      <div>
-        
-        <nav class="navbar navbar-expand-lg bg-body-tertiary">
-  <div class="container-fluid">
-  <a class="navbar-brand" href="#">FIDUCIA</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-        <li class="nav-item">
-        <a class="nav-link" href="#" onClick={()=>this.set()} style={{marginRight:'40px'}}>Set</a>
-          
-        </li>
-        <li class="nav-item">
-        <a class="nav-link" href="#" onClick={()=>this.start()} style={{marginRight:'40px'}}>Start</a>
-         
-        </li>
-        <li class="nav-item">
-        <a class="nav-link" href="#" onClick={()=>this.reset()} style={{marginRight:'40px'}}>Reset</a>
-         
-        </li>
-        <li class="nav-item">
-        <a class="nav-link" href="#" onClick={()=>this.manage_time()} style={{marginRight:'40px'}}>Manage time duration</a>
-         
-        </li>
-        <li class="nav-item">
-        <a class="nav-link" href="#" onClick={()=>this.start_feedback()} style={{marginRight:'40px'}}>Start Feedback</a>
-         
-        </li>
-        <li class="nav-item">
-        <a class="nav-link" href="#" onClick={()=>this.questions_input_feedback()} style={{marginRight:'40px'}}>Question input Feedback</a>
-         
-        </li>
-        <li class="nav-item">
-        <a class="nav-link" href="#" onClick={()=>this.get_answers_feedback()} style={{marginRight:'40px'}}>See Answers</a>
-         
-        </li>
-        <li class="nav-item">
-        <a class="nav-link" href="#" onClick={()=>this.reset_feedback()} style={{marginRight:'40px'}}>Reset Feedback Form</a>
-        
-        </li>
-        
-        
-        
-      </ul>
-      
-    </div>
-  </div>
-</nav>
+    
+  
+    
+    
+      return (
 
-        {view==='set' && <Set />}
+
+        <>
+        
+        <Br>
+       
+        <Routes>
+        <Route  exact path='/' element={<ChairHome/>}  />
+        <Route  exact path='/Voting' element={<ChairVotingHome/>}  />
+        <Route  exact path='/Feedback' element={<ChairFeedbackHome/>}  /> 
+        <Route  exact path='/VotingSet' element={<Set/>}  /> 
+        <Route  exact path='/VotingStart' element={<Start/>}  /> 
+        <Route  exact path='/VotingReset' element={<Reset/>}  /> 
+        <Route  exact path='/VotingTime' element={<Manage/>}  /> 
+        <Route  exact path='/StartFeedback' element={<StartFeedback/>}  /> 
+        <Route  exact path='/InputFeedback' element={<InputFeedback/>}  /> 
+        <Route  exact path='/AnswersFeedback' element={<AnswersFeedback/>}  /> 
+        <Route  exact path='/ResetFeedback' element={<ResetFeedback/>}  /> 
+        </Routes>
+        </Br>
+        
+        </>
+       );
+    
+ 
+    
+  }
+}
+
+export default App;
+
+/*   
+
+ {view==='set' && <Set />}
         {view==='start' && <Start/>}
         {view==='reset' && <Reset/>}
         {view==='manage time' && <Manage_time/>}
@@ -125,11 +89,9 @@ class App extends Component {
         {view==='questions_input' && <Questions_Feedback/>}
         {view==='get_answers' && <Get_Answers/>}
         {view==='reset_feedback' && <Reset_Feedback/>}
-       
-      </div>
-     
-    );
-  }
-}
+            {view==='Voting' && <VotingHome/>}
+        {view==='Feedback' && <FeedbackHome/> }
 
-export default App;
+
+
+*/

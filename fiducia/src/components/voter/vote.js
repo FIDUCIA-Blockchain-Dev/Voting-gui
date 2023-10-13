@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Web3 from 'web3';
 import { ABI, address } from '../config';
-
+import VoterVotingNavbar from './voter_voting_navbar'
 class App extends Component {
   
   constructor(props) {
@@ -80,6 +80,7 @@ class App extends Component {
   render() {
     const { selectedName,error } = this.state;
     return (
+      <VoterVotingNavbar>
       <div>
      
       {/* Display candidate names */}
@@ -88,8 +89,12 @@ class App extends Component {
   You have rejected the transaction. Please try again
   <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
 </div></div>}
+
+<div class="d-grid gap-2 col-3 mx-5 ">
+  <br/>
         {this.state.names_array.map((name, index) => (
           <div key={index}>
+            <br/>
             <input
               type="radio"
               name="selectedName" // Set the same name for all radio buttons to create a radio group
@@ -101,9 +106,11 @@ class App extends Component {
             <label htmlFor={name}>{name}</label>
           </div>
         ))}
-          <button type="button" class="btn btn-success" onClick={() => this.selectCandidate()}>Vote</button>
+        <br/>
+          <button type="button" class="btn border-black border-2 rounded-pill btn-lg btn-outline-dark" onClick={() => this.selectCandidate()}>Vote</button></div>
       </div>
     </div>
+    </VoterVotingNavbar>
     );
   }
 }
